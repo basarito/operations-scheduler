@@ -1,0 +1,6 @@
+D:\Fakultet\Projektovanje softvera\Ana Basaric - seminarski\PROJEKAT\Projekat\ProjektovanjeSoftveraProjekat\Domen\bin\Debug\Domen.dll
+D:\Fakultet\Projektovanje softvera\Ana Basaric - seminarski\PROJEKAT\Projekat\ProjektovanjeSoftveraProjekat\Domen\bin\Debug\Domen.pdb
+D:\Fakultet\Projektovanje softvera\Ana Basaric - seminarski\PROJEKAT\Projekat\ProjektovanjeSoftveraProjekat\Domen\obj\Debug\Domen.csproj.CoreCompileInputs.cache
+D:\Fakultet\Projektovanje softvera\Ana Basaric - seminarski\PROJEKAT\Projekat\ProjektovanjeSoftveraProjekat\Domen\obj\Debug\Domen.dll
+D:\Fakultet\Projektovanje softvera\Ana Basaric - seminarski\PROJEKAT\Projekat\ProjektovanjeSoftveraProjekat\Domen\obj\Debug\Domen.pdb
+D:\Fakultet\Projektovanje softvera\Ana Basaric - seminarski\PROJEKAT\Projekat\ProjektovanjeSoftveraProjekat\Domen\obj\Debug\Domen.csprojAssemblyReference.cache
