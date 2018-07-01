@@ -90,5 +90,10 @@ namespace Domen
         {
             return $"(imePrezime like '%{ImePrezime}%' OR jmbg like '{Jmbg}')";
         }
+
+        public string VratiZaIzmenu()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

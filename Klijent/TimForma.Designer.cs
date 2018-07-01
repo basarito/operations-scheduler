@@ -97,7 +97,7 @@
             this.checkListStazisti.Name = "checkListStazisti";
             this.checkListStazisti.Size = new System.Drawing.Size(177, 100);
             this.checkListStazisti.TabIndex = 15;
-            this.checkListStazisti.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.checkListStazisti_ItemCheck);
+            this.checkListStazisti.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.checkListBox_ItemCheck);
             // 
             // label6
             // 
@@ -120,7 +120,7 @@
             this.checkListAnesteziolozi.Name = "checkListAnesteziolozi";
             this.checkListAnesteziolozi.Size = new System.Drawing.Size(177, 100);
             this.checkListAnesteziolozi.TabIndex = 13;
-            this.checkListAnesteziolozi.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.checkListAnesteziolozi_ItemCheck);
+            this.checkListAnesteziolozi.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.checkListBox_ItemCheck);
             // 
             // label5
             // 
@@ -143,7 +143,7 @@
             this.checkListSestre.Name = "checkListSestre";
             this.checkListSestre.Size = new System.Drawing.Size(177, 100);
             this.checkListSestre.TabIndex = 11;
-            this.checkListSestre.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.checkListSestre_ItemCheck);
+            this.checkListSestre.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.checkListBox_ItemCheck);
             // 
             // label4
             // 
@@ -179,7 +179,7 @@
             this.checkListHirurzi.Size = new System.Drawing.Size(177, 100);
             this.checkListHirurzi.Sorted = true;
             this.checkListHirurzi.TabIndex = 0;
-            this.checkListHirurzi.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.checkListHirurzi_ItemCheck);
+            this.checkListHirurzi.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.checkListBox_ItemCheck);
             // 
             // btnSave
             // 

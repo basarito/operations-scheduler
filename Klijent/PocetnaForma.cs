@@ -151,5 +151,7 @@ namespace Klijent
         {
             new PocetnaOperacijaForma().ShowDialog();
         }
+
+        
     }
 }

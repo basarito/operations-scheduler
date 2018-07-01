@@ -131,6 +131,37 @@ namespace Broker
             return lista;
         }
 
+        public bool Izmeni(IOpstiDomenskiObjekat odo)
+        {
+            komanda.CommandText = $"UPDATE {odo.VratiImeTabele()} SET {odo.VratiZaIzmenu()} " +
+                $"WHERE {odo.VratiKljucIUslov()}";
+            komanda.CommandType = CommandType.Text;
+            int rezultat = komanda.ExecuteNonQuery();
+            if (rezultat == 1)
+            {
+                return true;
+            }
+            else
+            {
+                throw new Exception();
+            }
+        }
+
+        public bool Obrisi(IOpstiDomenskiObjekat odo)
+        {
+            komanda.CommandText = $"DELETE FROM {odo.VratiImeTabele()} WHERE {odo.VratiKljucIUslov()}";
+            komanda.CommandType = CommandType.Text;
+            int rezultat = komanda.ExecuteNonQuery();
+            if (rezultat == 1)
+            {
+                return true;
+            }
+            else
+            {
+                throw new Exception();
+            }
+        }
+
     }
 }
 

@@ -24,6 +24,7 @@ namespace Domen
         VRATI_OSOBLJE,
         DODAJ_TIM,
         PRETRAGA_TIM,
-        UCITAJ_TIM
+        UCITAJ_TIM,
+        IZMENI_TIM
     }
 }

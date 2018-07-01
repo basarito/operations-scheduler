@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IzmeniTimSO.cs" />
     <Compile Include="OpstaSistemskaOperacija.cs" />
     <Compile Include="PronadjiOsobljeSO.cs" />
     <Compile Include="PronadjiTimoveSO.cs" />

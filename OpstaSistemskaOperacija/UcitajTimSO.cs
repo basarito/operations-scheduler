@@ -23,7 +23,7 @@ namespace SistemskeOperacije
                 {
                     List<ClanTima> clanovi = new List<ClanTima>();
                     ClanTima c = new ClanTima() { TimID = tim.TimID };
-                    var result = BrokerBP.Instance.VratiSveKljuc(c);
+                    var result = BrokerBP.Instance.VratiSveUslov(c);
                     if(result.Count > 0)
                     {
                         foreach(var r in result)

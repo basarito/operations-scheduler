@@ -17,12 +17,16 @@ namespace Klijent
         public List<Osoblje> ListaOsoblja { get; set; }
         public BindingList<Osoblje> tim = new BindingList<Osoblje>();
         bool isEnabled = false;
- 
-        public TimForma()
+        public Tim TimEdit { get; set; }
+
+        public TimForma(Tim t = null)
         {
-            
-            InitializeComponent();          
+            InitializeComponent();
             Komunikacija.Instance.VratiSveOsoblje();
+            if (t != null)
+            {
+                TimEdit = t;
+            }
         }
 
         private void TimForma_Load(object sender, EventArgs e)
@@ -30,11 +34,11 @@ namespace Klijent
             SetControlEnable(false);
             //this.Enabled = false;
             //this.Cursor = Cursors.WaitCursor;
-            cbOdgovornoLice.DataSource = tim;           
+            cbOdgovornoLice.DataSource = tim;
         }
 
         public void ResetForm()
-        {           
+        {
             tim.Clear();
             txtNazivTima.Clear();
             checkListHirurzi.Items.Clear();
@@ -53,12 +57,13 @@ namespace Klijent
             checkListSestre.Enabled = state;
             checkListAnesteziolozi.Enabled = state;
             cbOdgovornoLice.Enabled = state;
-            if(state)
+            if (state)
             {
                 PocetnaForma.ApplyEnabledStyle(btnSave);
                 PocetnaForma.ApplyEnabledStyle(btnBack);
                 this.Cursor = Cursors.Arrow;
-            } else
+            }
+            else
             {
                 PocetnaForma.ApplyDisabledStyle(btnSave);
                 PocetnaForma.ApplyDisabledStyle(btnBack);
@@ -68,7 +73,7 @@ namespace Klijent
 
         private void btnBack_Click(object sender, EventArgs e)
         {
-            if(isEnabled)
+            if (isEnabled)
             {
                 this.Dispose();
             }
@@ -76,9 +81,9 @@ namespace Klijent
 
         public void PopulateListBoxes()
         {
-            foreach(Osoblje o in ListaOsoblja)
+            foreach (Osoblje o in ListaOsoblja)
             {
-                switch(o.Pozicija)
+                switch (o.Pozicija)
                 {
                     case Pozicija.Hirurg:
                         checkListHirurzi.Items.Add(o);
@@ -99,8 +104,39 @@ namespace Klijent
             checkListSestre.DisplayMember = "ImePrezime";
             checkListAnesteziolozi.DisplayMember = "ImePrezime";
             SetControlEnable(true);
-            //this.Enabled = true;
-            //this.Cursor = Cursors.Arrow;
+
+            //if edit mode:
+            if (TimEdit != null)
+            {
+                CheckExistingMembers(checkListHirurzi);
+                CheckExistingMembers(checkListStazisti);
+                CheckExistingMembers(checkListSestre);
+                CheckExistingMembers(checkListAnesteziolozi);
+
+                txtNazivTima.Text = TimEdit.NazivTima;
+
+                ClanTima odgovoran = TimEdit.ClanoviTima.Find(clan => clan.Odgovoran == true);
+                var osoblje = tim.Where(o => o.OsobljeID == odgovoran.Osoblje.OsobljeID);
+                cbOdgovornoLice.SelectedItem = osoblje.First();
+            }
+        }
+
+        public void CheckExistingMembers(CheckedListBox list)
+        {
+            var items = list.Items;
+            for (int i = 0; i < items.Count; i++)
+            {
+                int id = ((Osoblje)items[i]).OsobljeID;
+                var find = TimEdit.ClanoviTima.Find(clan => clan.OsobljeID == id);
+                if (find != null)
+                {
+                    list.SetItemCheckState(i, CheckState.Checked);
+                }
+                else
+                {
+                    list.SetItemCheckState(i, CheckState.Unchecked);
+                }
+            }
         }
 
         public delegate void PopulateListDelegate(List<Osoblje> o);
@@ -108,51 +144,15 @@ namespace Klijent
         {
             ListaOsoblja = o;
         }
-
-        private void checkListHirurzi_ItemCheck(object sender, ItemCheckEventArgs e)
+    
+        private void checkListBox_ItemCheck(object sender, ItemCheckEventArgs e)
         {
             if(e.NewValue == CheckState.Checked)
             {
-                tim.Add((Osoblje)checkListHirurzi.SelectedItem);
-            } else if (e.NewValue == CheckState.Unchecked)
+                tim.Add((Osoblje) ((CheckedListBox)sender).Items[e.Index]);
+            } else if(e.NewValue == CheckState.Unchecked)
             {
-                tim.Remove((Osoblje)checkListHirurzi.SelectedItem);
-            }
-        }
-
-        private void checkListStazisti_ItemCheck(object sender, ItemCheckEventArgs e)
-        {
-            if (e.NewValue == CheckState.Checked)
-            {
-                tim.Add((Osoblje)checkListStazisti.SelectedItem);
-            }
-            else if (e.NewValue == CheckState.Unchecked)
-            {
-                tim.Remove((Osoblje)checkListStazisti.SelectedItem);
-            }
-        }
-
-        private void checkListSestre_ItemCheck(object sender, ItemCheckEventArgs e)
-        {
-            if (e.NewValue == CheckState.Checked)
-            {
-                tim.Add((Osoblje)checkListSestre.SelectedItem);
-            }
-            else if (e.NewValue == CheckState.Unchecked)
-            {
-                tim.Remove((Osoblje)checkListSestre.SelectedItem);
-            }
-        }
-
-        private void checkListAnesteziolozi_ItemCheck(object sender, ItemCheckEventArgs e)
-        {
-            if (e.NewValue == CheckState.Checked)
-            {
-                tim.Add((Osoblje)checkListAnesteziolozi.SelectedItem);
-            }
-            else if (e.NewValue == CheckState.Unchecked)
-            {
-                tim.Remove((Osoblje)checkListAnesteziolozi.SelectedItem);
+                tim.Remove((Osoblje)((CheckedListBox)sender).Items[e.Index]);
             }
         }
 
@@ -163,18 +163,18 @@ namespace Klijent
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            if(!isEnabled)
+            if (!isEnabled)
             {
                 return;
             }
-            if(String.IsNullOrWhiteSpace(txtNazivTima.Text))
+            if (String.IsNullOrWhiteSpace(txtNazivTima.Text))
             {
                 MessageBox.Show("Molimo popunite naziv tima!", "Neispravan unos");
                 return;
             }
-            if(!tim.Any(t => t.Pozicija==Pozicija.Hirurg))
+            if (!tim.Any(t => t.Pozicija == Pozicija.Hirurg))
             {
-                MessageBox.Show("Tim mora sadržati bar jednog hirurga","Neispravan unos");
+                MessageBox.Show("Tim mora sadržati bar jednog hirurga", "Neispravan unos");
                 return;
             }
             if (!tim.Any(t => t.Pozicija == Pozicija.Sestra))
@@ -188,14 +188,22 @@ namespace Klijent
                 return;
             }
 
-            SetControlEnable(false);          
+            SetControlEnable(false);
             Tim noviTim = new Tim()
-            {               
+            {
                 NazivTima = txtNazivTima.Text
             };
             List<Osoblje> clanoviTima = tim.ToList();
             Osoblje odgovoran = (Osoblje)cbOdgovornoLice.SelectedItem;
-            Komunikacija.Instance.DodajTim(noviTim, clanoviTima, odgovoran);
+            if(TimEdit != null)
+            {
+                noviTim.TimID = TimEdit.TimID;
+                Komunikacija.Instance.IzmeniTim(noviTim, clanoviTima, odgovoran);
+            } else
+            {
+                Komunikacija.Instance.DodajTim(noviTim, clanoviTima, odgovoran);
+            }
+            
 
         }
     }

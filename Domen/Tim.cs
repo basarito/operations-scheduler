@@ -74,5 +74,10 @@ namespace Domen
         {
             return $"{NazivTima}";
         }
+
+        public string VratiZaIzmenu()
+        {
+            return $"nazivTima = '{NazivTima}'";
+        }
     }
 }

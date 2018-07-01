@@ -60,5 +60,10 @@ namespace Domen
         {
             throw new NotImplementedException();
         }
+
+        public string VratiZaIzmenu()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -80,6 +80,24 @@ namespace KontrolerPoslovneLogike
             }
         }
 
+        public static Tuple<bool, string> IzmeniTim(Tim tim, ref Tim result)
+        {
+            OpstaSistemskaOperacija izmeniTim = new IzmeniTimSO();
+            if (izmeniTim.IzvrsiSO(tim))
+            {
+                OpstaSistemskaOperacija ucitajTim = new UcitajTimSO();
+                if(ucitajTim.IzvrsiSO(tim))
+                {
+                    result = (Tim)ucitajTim.Rezultat;                    
+                }
+                return new Tuple<bool, string>(true, "Uspešno sačuvan tim.");
+            }
+            else
+            {
+                return new Tuple<bool, string>(false, "Sistem ne može da sačuva tim.");
+            }
+        }
+
         public static Tuple<bool, string> UcitajTim(Tim tim, ref Tim result)
         {
             OpstaSistemskaOperacija ucitajTim = new UcitajTimSO();

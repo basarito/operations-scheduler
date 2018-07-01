@@ -72,11 +72,23 @@ namespace Klijent
 
         private void btnDetails_Click(object sender, EventArgs e)
         {
-            //todo 
-            TimPrikazForma = new TimPrikazForma((Tim)listSearchResults.SelectedItem);
-            TimPrikazForma.ShowDialog();
+            if(isBtnDetailsEnabled)
+            {
+                TimPrikazForma = new TimPrikazForma((Tim)listSearchResults.SelectedItem, this);
+                TimPrikazForma.ShowDialog();
+            }
         }
 
-
+        internal void ShowResponse(TransferKlasa odgovor)
+        {
+            MessageBox.Show(odgovor.Poruka);
+            if(!odgovor.Signal)
+            {
+                //txtSearch.Clear();
+                listSearchResults.DataSource = null;
+                PocetnaForma.ApplyDisabledStyle(btnDetails);
+                isBtnDetailsEnabled = false;
+            }
+        }
     }
 }

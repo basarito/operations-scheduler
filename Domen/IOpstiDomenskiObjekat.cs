@@ -14,6 +14,7 @@ namespace Domen
         string VratiKoloneZaInsert();
         string VratiVrednostiZaInsert();
         string VratiKriterijumPretrage();
+        string VratiZaIzmenu();
         List<IOpstiDomenskiObjekat> VratiListu(OleDbDataReader citac);
         IOpstiDomenskiObjekat VratiObjekat(OleDbDataReader citac);
     }

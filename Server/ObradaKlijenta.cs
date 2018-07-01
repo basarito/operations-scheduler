@@ -66,6 +66,9 @@ namespace Server
                         case Akcija.UCITAJ_TIM:
                             HandleUcitajTim(zahtevKlijenta);
                             break;
+                        case Akcija.IZMENI_TIM:
+                            HandleIzmeniTim(zahtevKlijenta);
+                            break;
                     }
                 }
             }
@@ -73,6 +76,20 @@ namespace Server
             {
                 Console.WriteLine("Server down.");
             }      
+        }
+
+        private void HandleIzmeniTim(TransferKlasa zahtevKlijenta)
+        {
+            Tim result = null;
+            var signalPoruka = KontrolerPL.IzmeniTim((Tim)zahtevKlijenta.TransferObjekat, ref result);     
+            TransferKlasa response = new TransferKlasa()
+            {
+                Akcija = Akcija.IZMENI_TIM,
+                TransferObjekat = result,
+                Signal = signalPoruka.Item1,
+                Poruka = signalPoruka.Item2
+            };
+            formater.Serialize(tok, response);
         }
 
         private void HandleUcitajTim(TransferKlasa zahtevKlijenta)

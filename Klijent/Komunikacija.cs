@@ -74,14 +74,14 @@ namespace Klijent
             try
             {
                 isKraj = false;
-                while(!isKraj)
+                while (!isKraj)
                 {
                     TransferKlasa odgovor = formater.Deserialize(tok) as TransferKlasa;
-                    switch(odgovor.Akcija)
+                    switch (odgovor.Akcija)
                     {
                         case Akcija.KRAJ:
                             isKraj = true;
-                            HandleServerExit();                          
+                            HandleServerExit();
                             break;
                         case Akcija.DODAJ_OSOBLJE:
                             Forma.OsobljeForma.HandleResponse(odgovor);
@@ -94,7 +94,7 @@ namespace Klijent
                             Forma.OsobljeForma.HandleResponse(odgovor);
                             Forma.OsobljeForma.PrikaziDetaljePoziv(odgovor);
                             break;
-                        case Akcija.VRATI_OSOBLJE:                          
+                        case Akcija.VRATI_OSOBLJE:
                             HandleVratiSveOsoblje(odgovor);
                             break;
                         case Akcija.DODAJ_TIM:
@@ -106,7 +106,10 @@ namespace Klijent
                         case Akcija.UCITAJ_TIM:
                             HandleUcitajTim(odgovor);
                             break;
-                        
+                        case Akcija.IZMENI_TIM:
+                            HandleIzmeniTim(odgovor);
+                            break;
+
                     }
                 }
 
@@ -117,15 +120,33 @@ namespace Klijent
             }
         }
 
+        private void HandleIzmeniTim(TransferKlasa odgovor)
+        {
+            Forma.PocetnaTimForma.TimForma.Invoke(new Action(
+                () => {
+                    Forma.PocetnaTimForma.TimForma.ShowResponse(odgovor);
+                    Forma.PocetnaTimForma.TimForma.Dispose();                  
+                }
+                ));
+            if(odgovor.TransferObjekat != null)
+            {
+                Forma.PocetnaTimForma.TimPrikazForma.Invoke(new Action(
+                    () => {
+                        Forma.PocetnaTimForma.TimPrikazForma.PopulateForm((Tim)odgovor.TransferObjekat);
+                    }
+                     ));
+            }                
+        }
+
         private void HandleUcitajTim(TransferKlasa odgovor)
         {
             Forma.PocetnaTimForma.TimPrikazForma.Invoke(new Action(
                 () => { Forma.PocetnaTimForma.TimPrikazForma.ShowResponse(odgovor); }
                 ));
-            if(odgovor.Signal)
+            if (odgovor.Signal)
             {
                 Forma.PocetnaTimForma.TimPrikazForma.Invoke(new Action(
-                   () => { Forma.PocetnaTimForma.TimPrikazForma.PopulateForm((Tim)odgovor.TransferObjekat); } 
+                   () => { Forma.PocetnaTimForma.TimPrikazForma.PopulateForm((Tim)odgovor.TransferObjekat); }
                     ));
             }
         }
@@ -142,24 +163,34 @@ namespace Klijent
 
         private void HandePretragaTimova(TransferKlasa odgovor)
         {
-            var lista = (IList<IOpstiDomenskiObjekat>)odgovor.TransferObjekat;
-            List<Tim> lista2 = new List<Tim>();
-            foreach (var odo in lista)
-            {
-                lista2.Add((Tim)odo);
-            }
             Forma.PocetnaTimForma.Invoke(new Action(
-                () =>
+            () =>
+                 {
+                     Forma.PocetnaTimForma.ShowResponse(odgovor);
+                 }
+            ));
+            if(odgovor.Signal)
+            {
+                var lista = (IList<IOpstiDomenskiObjekat>)odgovor.TransferObjekat;
+                List<Tim> lista2 = new List<Tim>();
+                foreach (var odo in lista)
                 {
-                    Forma.PocetnaTimForma.PrikaziRezultatePretrage(lista2);
+                    lista2.Add((Tim)odo);
                 }
-                ));
+                Forma.PocetnaTimForma.Invoke(new Action(
+                    () =>
+                    {
+                        Forma.PocetnaTimForma.PrikaziRezultatePretrage(lista2);
+                    }
+                    ));
+            }
         }
 
         private void HandleDodajTim(TransferKlasa odgovor)
         {
             Forma.PocetnaTimForma.TimForma.Invoke(new Action(
-                () => {
+                () =>
+                {
                     Forma.PocetnaTimForma.TimForma.ShowResponse(odgovor);
                 }
                 ));
@@ -174,20 +205,21 @@ namespace Klijent
         private void HandleVratiSveOsoblje(TransferKlasa odgovor)
         {
             Forma.PocetnaTimForma.TimForma.Invoke(new Action(
-                () => {
+                () =>
+                {
                     Forma.PocetnaTimForma.TimForma.ShowResponse(odgovor);
                 }
                 ));
-            if(odgovor.Signal)
+            if (odgovor.Signal)
             {
                 //System.Windows.Forms.MessageBox.Show(odgovor.Poruka, "Uspesno!");
                 var odoList = (List<IOpstiDomenskiObjekat>)odgovor.TransferObjekat;
                 List<Osoblje> listaSvihOsoblja = new List<Osoblje>();
-                foreach(var o in odoList)
+                foreach (var o in odoList)
                 {
                     listaSvihOsoblja.Add((Osoblje)o);
                 }
-                
+
                 Forma.PocetnaTimForma.TimForma.Invoke(new Action(
                     () =>
                     {
@@ -196,7 +228,8 @@ namespace Klijent
                     ));
                 Forma.PocetnaTimForma.TimForma.Invoke(new Action(
                     Forma.PocetnaTimForma.TimForma.PopulateListBoxes));
-            } else
+            }
+            else
             {
                 //System.Windows.Forms.MessageBox.Show(odgovor.Poruka, "Doslo je do greske!");             
                 Forma.PocetnaTimForma.TimForma.Invoke(new Action(
@@ -257,18 +290,40 @@ namespace Klijent
         public void DodajTim(Tim tim, List<Osoblje> clanoviTima, Osoblje odgovoran)
         {
             List<ClanTima> clanovi = new List<ClanTima>();
-            foreach(Osoblje o in clanoviTima)
+            foreach (Osoblje o in clanoviTima)
             {
                 clanovi.Add(new ClanTima()
                 {
                     OsobljeID = o.OsobljeID,
-                    Odgovoran = o.OsobljeID == odgovoran.OsobljeID
+                    Odgovoran = o.OsobljeID == odgovoran.OsobljeID,
                 });
             }
             tim.ClanoviTima = clanovi;
             TransferKlasa transfer = new TransferKlasa
             {
                 Akcija = Akcija.DODAJ_TIM,
+                TransferObjekat = tim
+            };
+            formater.Serialize(tok, transfer);
+        }
+
+        public void IzmeniTim(Tim tim, List<Osoblje> clanoviTima, Osoblje odgovoran, bool edit = false)
+        {
+            List<ClanTima> clanovi = new List<ClanTima>();
+            foreach (Osoblje o in clanoviTima)
+            {
+                clanovi.Add(new ClanTima()
+                {
+                    OsobljeID = o.OsobljeID,
+                    Odgovoran = o.OsobljeID == odgovoran.OsobljeID,
+                    Osoblje = o,
+                    TimID = tim.TimID                
+                });
+            }
+            tim.ClanoviTima = clanovi;
+            TransferKlasa transfer = new TransferKlasa
+            {
+                Akcija = Akcija.IZMENI_TIM,
                 TransferObjekat = tim
             };
             formater.Serialize(tok, transfer);
