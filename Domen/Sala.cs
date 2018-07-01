@@ -26,7 +26,18 @@ namespace Domen
 
         public List<IOpstiDomenskiObjekat> VratiListu(OleDbDataReader citac)
         {
-            throw new NotImplementedException();
+            List<IOpstiDomenskiObjekat> lista = new List<IOpstiDomenskiObjekat>();
+            while (citac.Read())
+            {
+                Sala s = new Sala()
+                {
+                    SalaID = Convert.ToInt32(citac["salaID"]),
+                    NazivSale = Convert.ToString(citac["nazivSale"]),
+                    Sprat = Convert.ToInt32(citac["sprat"])
+                };               
+                lista.Add(s);
+            }
+            return lista;
         }
 
         public string VratiKoloneZaInsert()
@@ -52,6 +63,11 @@ namespace Domen
         public string VratiZaIzmenu()
         {
             throw new NotImplementedException();
+        }
+
+        public override string ToString()
+        {
+            return NazivSale;
         }
     }
 }

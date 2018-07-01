@@ -116,8 +116,14 @@ namespace Klijent
                 txtNazivTima.Text = TimEdit.NazivTima;
 
                 ClanTima odgovoran = TimEdit.ClanoviTima.Find(clan => clan.Odgovoran == true);
-                var osoblje = tim.Where(o => o.OsobljeID == odgovoran.Osoblje.OsobljeID);
-                cbOdgovornoLice.SelectedItem = osoblje.First();
+                if(odgovoran != null)
+                {
+                    var osoblje = tim.Where(o => o.OsobljeID == odgovoran.Osoblje.OsobljeID);
+                    cbOdgovornoLice.SelectedItem = osoblje.First();
+                } else
+                {
+                    cbOdgovornoLice.SelectedItem = tim.First();
+                }
             }
         }
 
@@ -191,7 +197,7 @@ namespace Klijent
             SetControlEnable(false);
             Tim noviTim = new Tim()
             {
-                NazivTima = txtNazivTima.Text
+                NazivTima = txtNazivTima.Text.Trim()
             };
             List<Osoblje> clanoviTima = tim.ToList();
             Osoblje odgovoran = (Osoblje)cbOdgovornoLice.SelectedItem;

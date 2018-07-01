@@ -17,3 +17,5 @@ D:\Fakultet\Projektovanje softvera\Ana Basaric - seminarski\PROJEKAT\Projekat\Pr
 D:\Fakultet\Projektovanje softvera\Ana Basaric - seminarski\PROJEKAT\Projekat\ProjektovanjeSoftveraProjekat\Klijent\bin\Debug\Domen.dll
 D:\Fakultet\Projektovanje softvera\Ana Basaric - seminarski\PROJEKAT\Projekat\ProjektovanjeSoftveraProjekat\Klijent\bin\Debug\Domen.pdb
 D:\Fakultet\Projektovanje softvera\Ana Basaric - seminarski\PROJEKAT\Projekat\ProjektovanjeSoftveraProjekat\Klijent\obj\Debug\Klijent.csproj.CopyComplete
+D:\Fakultet\Projektovanje softvera\Ana Basaric - seminarski\PROJEKAT\Projekat\ProjektovanjeSoftveraProjekat\Klijent\obj\Debug\Klijent.OperacijaForma.resources
+D:\Fakultet\Projektovanje softvera\Ana Basaric - seminarski\PROJEKAT\Projekat\ProjektovanjeSoftveraProjekat\Klijent\obj\Debug\Klijent.OperacijaPrikazForma.resources

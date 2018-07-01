@@ -12,6 +12,8 @@ namespace Klijent
 {
     public partial class PocetnaOperacijaForma : Form
     {
+        public OperacijaForma OperacijaForma { get; set; }
+
         public PocetnaOperacijaForma()
         {
             InitializeComponent();
@@ -20,6 +22,17 @@ namespace Klijent
         private void btnBack_Click(object sender, EventArgs e)
         {
             this.Dispose();
+        }
+
+        private void btnDetails_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnOpenNewOperation_Click(object sender, EventArgs e)
+        {
+            OperacijaForma = new OperacijaForma();
+            OperacijaForma.ShowDialog();
         }
     }
 }

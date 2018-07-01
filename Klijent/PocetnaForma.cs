@@ -17,6 +17,7 @@ namespace Klijent
 
         public OsobljeForma OsobljeForma { get; set; }
         public PocetnaTimForma PocetnaTimForma { get; set; }
+        public PocetnaOperacijaForma PocetnaOperacijaForma { get; set; }
 
         public PocetnaForma()
         {
@@ -149,7 +150,8 @@ namespace Klijent
 
         private void btnOpenOperacije_Click(object sender, EventArgs e)
         {
-            new PocetnaOperacijaForma().ShowDialog();
+            PocetnaOperacijaForma = new PocetnaOperacijaForma();
+            PocetnaOperacijaForma.ShowDialog();
         }
 
         

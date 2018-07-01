@@ -46,6 +46,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Komunikacija.cs" />
+    <Compile Include="OperacijaForma.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OperacijaForma.Designer.cs">
+      <DependentUpon>OperacijaForma.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OperacijaPrikazForma.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OperacijaPrikazForma.Designer.cs">
+      <DependentUpon>OperacijaPrikazForma.cs</DependentUpon>
+    </Compile>
     <Compile Include="OsobljeForma.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -90,6 +102,12 @@
     <Compile Include="TimPrikazForma.Designer.cs">
       <DependentUpon>TimPrikazForma.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="OperacijaForma.resx">
+      <DependentUpon>OperacijaForma.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OperacijaPrikazForma.resx">
+      <DependentUpon>OperacijaPrikazForma.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="OsobljeForma.resx">
       <DependentUpon>OsobljeForma.cs</DependentUpon>
     </EmbeddedResource>

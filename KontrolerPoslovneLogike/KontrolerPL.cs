@@ -98,6 +98,64 @@ namespace KontrolerPoslovneLogike
             }
         }
 
+        public static Tuple<bool, string> DodajOperaciju(Operacija operacija)
+        {
+            OpstaSistemskaOperacija dodajOperaciju = new DodajOperacijuSO();
+            if(dodajOperaciju.IzvrsiSO(operacija))
+            {
+                return new Tuple<bool, string>(true, "Uspešno sačuvana operacija.");
+            } else
+            {
+                return new Tuple<bool, string>(false, "Sistem ne može da sačuva operaciju.");
+            }
+        }
+
+        public static Tuple<bool, string> VratiSveTimove(ref List<Tim> result)
+        {
+            OpstaSistemskaOperacija vratiSveTimove = new VratiSveTimoveSO();
+            if (vratiSveTimove.IzvrsiSO(new Tim()))
+            {
+                var timovi = (List<IOpstiDomenskiObjekat>)vratiSveTimove.Rezultat;
+                OpstaSistemskaOperacija ucitajTim = new UcitajTimSO();
+                List<Tim> konacan = new List<Tim>();
+                foreach(var tim in timovi)
+                {
+                    if(ucitajTim.IzvrsiSO(tim))
+                    {
+                        konacan.Add((Tim)ucitajTim.Rezultat);
+                    } else
+                    {
+                        return new Tuple<bool, string>(true, "Sistem ne moze da ucita sve timove.");
+                    }
+                }
+                result = konacan;
+                return new Tuple<bool, string>(true, "Uspesno ucitane sve timove.");
+            }
+            else
+            {
+                return new Tuple<bool, string>(true, "Sistem ne moze da ucita sve timove.");
+            }
+        }
+
+        public static Tuple<bool, string> VratiSveSale(ref List<Sala> result)
+        {
+            OpstaSistemskaOperacija vratiSveSale = new VratiSveSaleSO();
+            if(vratiSveSale.IzvrsiSO(new Sala()))
+            {
+                var rez = (List<IOpstiDomenskiObjekat>)vratiSveSale.Rezultat;
+                List<Sala> sale = new List<Sala>();
+                foreach (var r in rez)
+                {
+                    sale.Add((Sala)r);
+                }
+                result = sale;
+                return new Tuple<bool, string>(true,"Uspesno ucitane sve sale.");
+            } else
+            {
+                return new Tuple<bool, string>(true, "Sistem ne moze da ucita sve sale.");
+            }
+        }
+
         public static Tuple<bool, string> UcitajTim(Tim tim, ref Tim result)
         {
             OpstaSistemskaOperacija ucitajTim = new UcitajTimSO();

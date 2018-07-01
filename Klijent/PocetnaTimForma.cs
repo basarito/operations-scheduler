@@ -43,7 +43,7 @@ namespace Klijent
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
-            string kriterijum = txtSearch.Text;
+            string kriterijum = txtSearch.Text.Trim();
             if (String.IsNullOrWhiteSpace(kriterijum))
             {
                 MessageBox.Show("Molimo unesite kriterijum pretrage!", "Neispravno polje");

@@ -69,6 +69,15 @@ namespace Server
                         case Akcija.IZMENI_TIM:
                             HandleIzmeniTim(zahtevKlijenta);
                             break;
+                        case Akcija.VRATI_SALE:
+                            HandleVratiSale();
+                            break;
+                        case Akcija.VRATI_TIMOVE:
+                            HandleVratiTimove();
+                            break;
+                        case Akcija.DODAJ_OPERACIJU:
+                            HandleDodajOperaciju(zahtevKlijenta);
+                            break;
                     }
                 }
             }
@@ -76,6 +85,47 @@ namespace Server
             {
                 Console.WriteLine("Server down.");
             }      
+        }
+
+        private void HandleDodajOperaciju(TransferKlasa zahtevKlijenta)
+        {
+            Operacija operacija = (Operacija)zahtevKlijenta.TransferObjekat;
+            var signalPoruka = KontrolerPL.DodajOperaciju(operacija);
+            TransferKlasa response = new TransferKlasa()
+            {
+                Akcija = Akcija.DODAJ_OPERACIJU,
+                Signal = signalPoruka.Item1,
+                Poruka = signalPoruka.Item2
+            };
+            formater.Serialize(tok, response);
+        }
+
+        private void HandleVratiTimove()
+        {
+            List<Tim> result = new List<Tim>();
+            var signalPoruka = KontrolerPL.VratiSveTimove(ref result);
+            TransferKlasa response = new TransferKlasa()
+            {
+                Akcija = Akcija.VRATI_TIMOVE,
+                TransferObjekat = result,
+                Signal = signalPoruka.Item1,
+                Poruka = signalPoruka.Item2
+            };
+            formater.Serialize(tok, response);
+        }
+
+        private void HandleVratiSale()
+        {
+            List<Sala> result = new List<Sala>();
+            var signalPoruka = KontrolerPL.VratiSveSale(ref result);
+            TransferKlasa response = new TransferKlasa()
+            {
+                Akcija = Akcija.VRATI_SALE,
+                TransferObjekat = result,
+                Signal = signalPoruka.Item1,
+                Poruka = signalPoruka.Item2
+            };
+            formater.Serialize(tok, response);
         }
 
         private void HandleIzmeniTim(TransferKlasa zahtevKlijenta)

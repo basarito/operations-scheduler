@@ -19,6 +19,7 @@ namespace Klijent
         private static Komunikacija instance;
 
         TcpClient klijent;
+
         NetworkStream tok;
         BinaryFormatter formater = new BinaryFormatter();
 
@@ -109,7 +110,15 @@ namespace Klijent
                         case Akcija.IZMENI_TIM:
                             HandleIzmeniTim(odgovor);
                             break;
-
+                        case Akcija.VRATI_SALE:
+                            HandleVratiSveSale(odgovor);
+                            break;
+                        case Akcija.VRATI_TIMOVE:
+                            HandleVratiSveTimove(odgovor);
+                            break;
+                        case Akcija.DODAJ_OPERACIJU:
+                            HandleDodajOperaciju(odgovor);
+                            break;
                     }
                 }
 
@@ -120,22 +129,56 @@ namespace Klijent
             }
         }
 
+        private void HandleDodajOperaciju(TransferKlasa odgovor)
+        {
+            Forma.PocetnaOperacijaForma.OperacijaForma.Invoke(new Action(
+            () =>
+                {
+                    Forma.PocetnaOperacijaForma.OperacijaForma.ShowResponse(odgovor);
+                }
+            ));
+        }
+
+        private void HandleVratiSveTimove(TransferKlasa odgovor)
+        {
+            List<Tim> timovi = (List<Tim>)odgovor.TransferObjekat;
+            Forma.PocetnaOperacijaForma.OperacijaForma.Invoke(new Action(
+                () =>
+                {
+                    Forma.PocetnaOperacijaForma.OperacijaForma.PopulateDataGridView(timovi);
+                }
+                ));
+        }
+
+        private void HandleVratiSveSale(TransferKlasa odgovor)
+        {
+            List<Sala> sale = (List<Sala>)odgovor.TransferObjekat;
+            Forma.PocetnaOperacijaForma.OperacijaForma.Invoke(new Action(
+                () =>
+                {
+                    Forma.PocetnaOperacijaForma.OperacijaForma.PopulateComboBox(sale);
+                }
+                ));
+        }
+
         private void HandleIzmeniTim(TransferKlasa odgovor)
         {
             Forma.PocetnaTimForma.TimForma.Invoke(new Action(
-                () => {
+                () =>
+                {
                     Forma.PocetnaTimForma.TimForma.ShowResponse(odgovor);
-                    Forma.PocetnaTimForma.TimForma.Dispose();                  
+                    Forma.PocetnaTimForma.TimForma.Dispose();
                 }
                 ));
-            if(odgovor.TransferObjekat != null)
+            if (odgovor.TransferObjekat != null)
             {
                 Forma.PocetnaTimForma.TimPrikazForma.Invoke(new Action(
-                    () => {
+                    () =>
+                    {
                         Forma.PocetnaTimForma.TimPrikazForma.PopulateForm((Tim)odgovor.TransferObjekat);
                     }
                      ));
-            }                
+            }
         }
 
         private void HandleUcitajTim(TransferKlasa odgovor)
@@ -169,7 +212,7 @@ namespace Klijent
                      Forma.PocetnaTimForma.ShowResponse(odgovor);
                  }
             ));
-            if(odgovor.Signal)
+            if (odgovor.Signal)
             {
                 var lista = (IList<IOpstiDomenskiObjekat>)odgovor.TransferObjekat;
                 List<Tim> lista2 = new List<Tim>();
@@ -317,7 +360,7 @@ namespace Klijent
                     OsobljeID = o.OsobljeID,
                     Odgovoran = o.OsobljeID == odgovoran.OsobljeID,
                     Osoblje = o,
-                    TimID = tim.TimID                
+                    TimID = tim.TimID
                 });
             }
             tim.ClanoviTima = clanovi;
@@ -339,6 +382,34 @@ namespace Klijent
             {
                 Akcija = Akcija.PRETRAGA_TIM,
                 TransferObjekat = tim
+            };
+            formater.Serialize(tok, transfer);
+        }
+
+        internal void VratiSveSale()
+        {
+            TransferKlasa transfer = new TransferKlasa
+            {
+                Akcija = Akcija.VRATI_SALE
+            };
+            formater.Serialize(tok, transfer);
+        }
+
+        internal void VratiSveTimove()
+        {
+            TransferKlasa transfer = new TransferKlasa
+            {
+                Akcija = Akcija.VRATI_TIMOVE
+            };
+            formater.Serialize(tok, transfer);
+        }
+
+        internal void DodajOperaciju(Operacija operacija)
+        {
+            TransferKlasa transfer = new TransferKlasa
+            {
+                Akcija = Akcija.DODAJ_OPERACIJU,
+                TransferObjekat = operacija
             };
             formater.Serialize(tok, transfer);
         }

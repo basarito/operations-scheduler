@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data.OleDb;
 using System.Linq;
 using System.Text;
@@ -10,9 +11,21 @@ namespace Domen
     [Serializable]
     public class Tim : IOpstiDomenskiObjekat
     {
+        [Browsable(false)]
         public int TimID { get; set; }
+
+        [DisplayName("Naziv tima")]
         public string NazivTima { get; set; }
         public List<ClanTima> ClanoviTima { get; set; }
+
+        [DisplayName("Članovi tima")]
+        public string ClanoviTimaString
+        {
+            get {              
+                return String.Join("\n", ClanoviTima.Select(clan => clan.Osoblje.ToString()));
+            }
+        }
+
 
         public string VratiImeTabele()
         {

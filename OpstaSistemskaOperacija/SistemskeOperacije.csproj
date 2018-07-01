@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DodajOperacijuSO.cs" />
     <Compile Include="IzmeniTimSO.cs" />
     <Compile Include="OpstaSistemskaOperacija.cs" />
     <Compile Include="PronadjiOsobljeSO.cs" />
@@ -48,6 +49,8 @@
     <Compile Include="UcitajOsobljeSO.cs" />
     <Compile Include="UcitajTimSO.cs" />
     <Compile Include="VratiSveOsobljeSO.cs" />
+    <Compile Include="VratiSveSaleSO.cs" />
+    <Compile Include="VratiSveTimoveSO.cs" />
     <Compile Include="ZapamtiOsobljeSO.cs" />
     <Compile Include="ZapamtiTimSO.cs" />
   </ItemGroup>

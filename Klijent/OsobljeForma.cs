@@ -49,8 +49,8 @@ namespace Klijent
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            string imePrezime = txtImePrezime.Text;
-            string jmbg = txtJmbg.Text;
+            string imePrezime = txtImePrezime.Text.Trim();
+            string jmbg = txtJmbg.Text.Trim();
             Pozicija pozicija = (Pozicija)cbPozicija.SelectedItem;
 
             if (!ValidateName(imePrezime))
@@ -171,7 +171,7 @@ namespace Klijent
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
-            string kriterijum = txtSearch.Text;
+            string kriterijum = txtSearch.Text.Trim();
             if (String.IsNullOrWhiteSpace(kriterijum))
             {
                 MessageBox.Show("Molimo unesite kriterijum pretrage!", "Neispravno polje");

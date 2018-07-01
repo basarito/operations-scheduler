@@ -26,6 +26,8 @@ namespace Domen
         public string IzvestajOpis { get; set; }
         public DateTime IzvestajDatum { get; set; }
 
+        private string format = "dd/MM/yyyy HH:mm";
+
         public string VratiImeTabele()
         {
             return "Operacija";
@@ -33,12 +35,28 @@ namespace Domen
 
         public string VratiKljucIUslov()
         {
-            throw new NotImplementedException();
+            return $"operacijaID = {OperacijaID}";
         }
 
         public List<IOpstiDomenskiObjekat> VratiListu(OleDbDataReader citac)
         {
-            throw new NotImplementedException();
+            List<IOpstiDomenskiObjekat> lista = new List<IOpstiDomenskiObjekat>();
+            while (citac.Read())
+            {
+                Operacija o = new Operacija()
+                {
+                    OperacijaID = Convert.ToInt32(citac["operacijaID"]),
+                    SalaID = Convert.ToInt32(citac["salaID"]),
+                    TimID = Convert.ToInt32(citac["timID"]),
+                    Status = (Status)(Convert.ToInt32(citac["status"])),
+                    TerminOd = Convert.ToDateTime(citac["terminOd"]),
+                    TerminDo = Convert.ToDateTime(citac["terminDo"]),
+                    IzvestajOpis = Convert.ToString(citac["izvestajOpis"]),
+                    IzvestajDatum = Convert.ToDateTime(citac["izvestajDatum"])
+                };
+                lista.Add(o);
+            }
+            return lista;
         }
 
         public string VratiKoloneZaInsert()
@@ -48,7 +66,7 @@ namespace Domen
 
         public string VratiVrednostiZaInsert()
         {
-            return $"{TimID}, {SalaID}, '{TerminOd}', '{TerminDo}', {(int)Status}, '{IzvestajOpis}', '{IzvestajDatum}'";
+            return $"{TimID}, {SalaID},'{TerminOd.ToString(format)}', '{TerminDo.ToString(format)}', {(int)Status}, '', 0";
         }
 
         public IOpstiDomenskiObjekat VratiObjekat(OleDbDataReader citac)
@@ -58,7 +76,8 @@ namespace Domen
 
         public string VratiKriterijumPretrage()
         {
-            throw new NotImplementedException();
+            //return $"salaID = {SalaID} AND ([terminOd] <'{TerminDo.ToString(format)}' AND [terminDo] >'{TerminOd.ToString(format)}')";
+            return $"salaID = {SalaID} OR timID = {TimID}";
         }
 
         public string VratiZaIzmenu()

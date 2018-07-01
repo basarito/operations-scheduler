@@ -30,7 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PocetnaOperacijaForma));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.btnOpenNewTeam = new System.Windows.Forms.Button();
+            this.btnOpenNewOperation = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.btnBack = new System.Windows.Forms.Button();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
@@ -46,7 +46,7 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.btnOpenNewTeam);
+            this.groupBox1.Controls.Add(this.btnOpenNewOperation);
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.groupBox1.ForeColor = System.Drawing.Color.DarkSlateGray;
             this.groupBox1.Location = new System.Drawing.Point(18, 19);
@@ -56,19 +56,20 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Unos nove operacije";
             // 
-            // btnOpenNewTeam
+            // btnOpenNewOperation
             // 
-            this.btnOpenNewTeam.BackColor = System.Drawing.Color.MediumTurquoise;
-            this.btnOpenNewTeam.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnOpenNewTeam.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnOpenNewTeam.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.btnOpenNewTeam.ForeColor = System.Drawing.Color.DarkSlateGray;
-            this.btnOpenNewTeam.Location = new System.Drawing.Point(17, 22);
-            this.btnOpenNewTeam.Name = "btnOpenNewTeam";
-            this.btnOpenNewTeam.Size = new System.Drawing.Size(396, 30);
-            this.btnOpenNewTeam.TabIndex = 11;
-            this.btnOpenNewTeam.Text = "Zakaži operaciju";
-            this.btnOpenNewTeam.UseVisualStyleBackColor = false;
+            this.btnOpenNewOperation.BackColor = System.Drawing.Color.MediumTurquoise;
+            this.btnOpenNewOperation.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnOpenNewOperation.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnOpenNewOperation.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.btnOpenNewOperation.ForeColor = System.Drawing.Color.DarkSlateGray;
+            this.btnOpenNewOperation.Location = new System.Drawing.Point(17, 22);
+            this.btnOpenNewOperation.Name = "btnOpenNewOperation";
+            this.btnOpenNewOperation.Size = new System.Drawing.Size(396, 30);
+            this.btnOpenNewOperation.TabIndex = 11;
+            this.btnOpenNewOperation.Text = "Zakaži operaciju";
+            this.btnOpenNewOperation.UseVisualStyleBackColor = false;
+            this.btnOpenNewOperation.Click += new System.EventHandler(this.btnOpenNewOperation_Click);
             // 
             // groupBox2
             // 
@@ -135,6 +136,7 @@
             this.btnDetails.TabIndex = 9;
             this.btnDetails.Text = "Detaljnije";
             this.btnDetails.UseVisualStyleBackColor = false;
+            this.btnDetails.Click += new System.EventHandler(this.btnDetails_Click);
             // 
             // listSearchResults
             // 
@@ -202,7 +204,7 @@
         #endregion
 
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Button btnOpenNewTeam;
+        private System.Windows.Forms.Button btnOpenNewOperation;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button btnDetails;
         private System.Windows.Forms.ListBox listSearchResults;

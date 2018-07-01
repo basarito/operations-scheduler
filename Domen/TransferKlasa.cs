@@ -25,6 +25,9 @@ namespace Domen
         DODAJ_TIM,
         PRETRAGA_TIM,
         UCITAJ_TIM,
-        IZMENI_TIM
+        IZMENI_TIM,
+        VRATI_SALE,
+        VRATI_TIMOVE,
+        DODAJ_OPERACIJU
     }
 }
