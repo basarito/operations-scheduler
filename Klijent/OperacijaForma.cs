@@ -48,7 +48,10 @@ namespace Klijent
 
         private void btnBack_Click(object sender, EventArgs e)
         {
-            this.Dispose();
+            if(stateEnabled)
+            {
+                this.Dispose();
+            }
         }
 
         internal void PopulateComboBox(List<Sala> sale)
@@ -100,13 +103,16 @@ namespace Klijent
                 timePart = (datePickerTerminDoVreme.Value.TimeOfDay).ToString();
                 terminDo = DateTime.Parse($"{datePart} {timePart}");
 
+                if(terminDo <= terminOd)
+                {
+                    throw new Exception();
+                }
+
             } catch (Exception)
             {
                 MessageBox.Show("Pogresno unesen datum!");
                 return;
             }
-
-            //todo provera datuma
 
             Operacija operacija = new Operacija()
             {

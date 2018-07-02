@@ -119,6 +119,12 @@ namespace Klijent
                         case Akcija.DODAJ_OPERACIJU:
                             HandleDodajOperaciju(odgovor);
                             break;
+                        case Akcija.PRETRAGA_OPERACIJA:
+                            HandlePretragaOperacija(odgovor);
+                            break;
+                        case Akcija.UCITAJ_OPERACIJU:
+                            HandleUcitajOperaciju(odgovor);
+                            break;
                     }
                 }
 
@@ -127,6 +133,34 @@ namespace Klijent
             {
 
             }
+        }
+
+        private void HandleUcitajOperaciju(TransferKlasa odgovor)
+        {
+            Forma.PocetnaOperacijaForma.OperacijaPrikazForma.Invoke(new Action(
+                () => { Forma.PocetnaOperacijaForma.OperacijaPrikazForma.ShowResponse(odgovor); }
+                ));
+            if (odgovor.Signal)
+            {
+                Forma.PocetnaOperacijaForma.OperacijaPrikazForma.Invoke(new Action(
+                   () => { Forma.PocetnaOperacijaForma.OperacijaPrikazForma.PopulateForm
+                       ((Operacija)odgovor.TransferObjekat); }
+                    ));
+            }
+        }
+
+        private void HandlePretragaOperacija(TransferKlasa odgovor)
+        {           
+            Forma.PocetnaOperacijaForma.Invoke(new Action(
+                () =>
+                {
+                    Forma.PocetnaOperacijaForma.ShowResponse(odgovor);
+                    if(odgovor.Signal)
+                    {
+                        Forma.PocetnaOperacijaForma.PrikaziRezultatPretrage((List<Operacija>)odgovor.TransferObjekat);
+                    }
+                }
+                ));
         }
 
         private void HandleDodajOperaciju(TransferKlasa odgovor)
@@ -183,14 +217,32 @@ namespace Klijent
 
         private void HandleUcitajTim(TransferKlasa odgovor)
         {
-            Forma.PocetnaTimForma.TimPrikazForma.Invoke(new Action(
-                () => { Forma.PocetnaTimForma.TimPrikazForma.ShowResponse(odgovor); }
-                ));
-            if (odgovor.Signal)
+            if (Forma.PocetnaTimForma != null)
             {
                 Forma.PocetnaTimForma.TimPrikazForma.Invoke(new Action(
-                   () => { Forma.PocetnaTimForma.TimPrikazForma.PopulateForm((Tim)odgovor.TransferObjekat); }
+                     () => { Forma.PocetnaTimForma.TimPrikazForma.ShowResponse(odgovor); }
+                ));
+                if (odgovor.Signal)
+                {
+                    Forma.PocetnaTimForma.TimPrikazForma.Invoke(new Action(
+                       () => { Forma.PocetnaTimForma.TimPrikazForma.PopulateForm((Tim)odgovor.TransferObjekat); }
+                        ));
+                }
+            } else
+            {
+                Forma.PocetnaOperacijaForma.OperacijaPrikazForma.Invoke(new Action(
+                    () => {
+                        Forma.PocetnaOperacijaForma.OperacijaPrikazForma.ShowResponse(odgovor); }
                     ));
+                if (odgovor.Signal)
+                {
+                    Forma.PocetnaOperacijaForma.OperacijaPrikazForma.TimPrikazForma.Invoke(new Action(
+                       () => {
+                           Forma.PocetnaOperacijaForma.OperacijaPrikazForma.TimPrikazForma.PopulateForm((Tim)odgovor.TransferObjekat);
+                           Forma.PocetnaOperacijaForma.OperacijaPrikazForma.TimPrikazForma.ButtonEdit.Visible = false;
+                       }
+                        ));
+                }
             }
         }
 
@@ -413,6 +465,27 @@ namespace Klijent
             };
             formater.Serialize(tok, transfer);
         }
+
+        internal void PretragaOperacija(Operacija op)
+        {
+            TransferKlasa transfer = new TransferKlasa
+            {
+                Akcija = Akcija.PRETRAGA_OPERACIJA,
+                TransferObjekat = op
+            };
+            formater.Serialize(tok, transfer);
+        }
+
+        internal void UcitajOperaciju(Operacija operacija)
+        {
+            TransferKlasa transfer = new TransferKlasa
+            {
+                Akcija = Akcija.UCITAJ_OPERACIJU,
+                TransferObjekat = operacija
+            };
+            formater.Serialize(tok, transfer);
+        }
+
 
     }
 }

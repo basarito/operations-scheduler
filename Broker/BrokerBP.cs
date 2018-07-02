@@ -120,16 +120,16 @@ namespace Broker
             return lista;
         }
 
-        public List<IOpstiDomenskiObjekat> VratiSveKljuc(IOpstiDomenskiObjekat odo)
-        {
-            List<IOpstiDomenskiObjekat> lista;
-            komanda.CommandText = $"SELECT * FROM {odo.VratiImeTabele()} WHERE {odo.VratiKljucIUslov()}";
-            komanda.CommandType = CommandType.Text;
-            OleDbDataReader citac = komanda.ExecuteReader();
-            lista = odo.VratiListu(citac);
-            citac.Close();
-            return lista;
-        }
+        //public List<IOpstiDomenskiObjekat> VratiSveKljuc(IOpstiDomenskiObjekat odo)
+        //{
+        //    List<IOpstiDomenskiObjekat> lista;
+        //    komanda.CommandText = $"SELECT * FROM {odo.VratiImeTabele()} WHERE {odo.VratiKljucIUslov()}";
+        //    komanda.CommandType = CommandType.Text;
+        //    OleDbDataReader citac = komanda.ExecuteReader();
+        //    lista = odo.VratiListu(citac);
+        //    citac.Close();
+        //    return lista;
+        //}
 
         public bool Izmeni(IOpstiDomenskiObjekat odo)
         {

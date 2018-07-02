@@ -21,7 +21,7 @@ namespace Domen
 
         public string VratiKljucIUslov()
         {
-            throw new NotImplementedException();
+            return $"salaID = {SalaID}";
         }
 
         public List<IOpstiDomenskiObjekat> VratiListu(OleDbDataReader citac)
@@ -52,12 +52,22 @@ namespace Domen
 
         public IOpstiDomenskiObjekat VratiObjekat(OleDbDataReader citac)
         {
-            throw new NotImplementedException();
+            IOpstiDomenskiObjekat objekat = null;
+            while (citac.Read())
+            {
+                objekat = new Sala()
+                {
+                    SalaID = Convert.ToInt32(citac["salaID"]),
+                    NazivSale = Convert.ToString(citac["nazivSale"]),
+                    Sprat = Convert.ToInt32(citac["sprat"])
+                };
+            }
+            return objekat;
         }
 
         public string VratiKriterijumPretrage()
         {
-            throw new NotImplementedException();
+            return $"nazivSale = '{NazivSale}'";
         }
 
         public string VratiZaIzmenu()

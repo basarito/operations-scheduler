@@ -98,6 +98,46 @@ namespace KontrolerPoslovneLogike
             }
         }
 
+        public static Tuple<bool, string> UcitajOperaciju(Operacija operacija, ref Operacija result)
+        {
+            OpstaSistemskaOperacija ucitajOperaciju = new UcitajOperacijuSO();
+            if(ucitajOperaciju.IzvrsiSO(operacija))
+            {
+                if(ucitajOperaciju.Rezultat != null)
+                {
+                    result = (Operacija)ucitajOperaciju.Rezultat;
+                    return new Tuple<bool, string>(true, "Uspešno učitana operacija.");
+                } else
+                {
+                    return new Tuple<bool, string>(false, "Sistem ne može da učita operaciju.");
+                }
+            } else
+            {
+                return new Tuple<bool, string>(false, "Sistem ne može da učita operaciju.");
+            }
+        }
+
+        public static Tuple<bool, string> PronadjiOperacije(Operacija op, ref List<Operacija> result)
+        {
+            OpstaSistemskaOperacija pronadjiOperacije = new PronadjiOperacijeSO();
+            if(pronadjiOperacije.IzvrsiSO(op))
+            {
+                var rez = (List<Operacija>)pronadjiOperacije.Rezultat;
+                if(rez.Count > 0)
+                {
+                    result = rez;
+                    return new Tuple<bool, string>(true, "Uspešno pronađene operacije za zadatu vrednost.");
+                } else
+                {
+                    return new Tuple<bool, string>(false, "Sistem ne može da pronađe operacije za zadatu vrednost.");
+                }
+                
+            } else
+            {
+                return new Tuple<bool, string>(false, "Sistem ne može da pronađe operacije za zadatu vrednost.");
+            }
+        }
+
         public static Tuple<bool, string> DodajOperaciju(Operacija operacija)
         {
             OpstaSistemskaOperacija dodajOperaciju = new DodajOperacijuSO();

@@ -26,6 +26,7 @@ namespace Klijent
             if (t != null)
             {
                 TimEdit = t;
+                this.Text = "Izmena tima";
             }
         }
 

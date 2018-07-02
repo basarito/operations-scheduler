@@ -33,13 +33,20 @@
             this.label4 = new System.Windows.Forms.Label();
             this.txtId = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtSala = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.txtTerminOd = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.txtTerminDo = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.txtStatus = new System.Windows.Forms.TextBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnIzvestaj = new System.Windows.Forms.Button();
+            this.txtSprat = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.btnBack = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -47,7 +54,7 @@
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label1.ForeColor = System.Drawing.Color.DarkSlateGray;
-            this.label1.Location = new System.Drawing.Point(92, 19);
+            this.label1.Location = new System.Drawing.Point(85, 12);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(150, 20);
             this.label1.TabIndex = 1;
@@ -58,7 +65,7 @@
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label4.ForeColor = System.Drawing.Color.DarkSlateGray;
-            this.label4.Location = new System.Drawing.Point(21, 43);
+            this.label4.Location = new System.Drawing.Point(14, 37);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(21, 15);
             this.label4.TabIndex = 17;
@@ -71,7 +78,7 @@
             this.txtId.Enabled = false;
             this.txtId.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.txtId.ForeColor = System.Drawing.Color.DarkSlateGray;
-            this.txtId.Location = new System.Drawing.Point(24, 61);
+            this.txtId.Location = new System.Drawing.Point(17, 54);
             this.txtId.Name = "txtId";
             this.txtId.Size = new System.Drawing.Size(294, 22);
             this.txtId.TabIndex = 16;
@@ -81,107 +88,190 @@
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label2.ForeColor = System.Drawing.Color.DarkSlateGray;
-            this.label2.Location = new System.Drawing.Point(21, 86);
+            this.label2.Location = new System.Drawing.Point(14, 78);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(36, 15);
             this.label2.TabIndex = 19;
             this.label2.Text = "Sala";
             // 
-            // textBox1
+            // txtSala
             // 
-            this.textBox1.BackColor = System.Drawing.Color.GhostWhite;
-            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox1.Enabled = false;
-            this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.textBox1.ForeColor = System.Drawing.Color.DarkSlateGray;
-            this.textBox1.Location = new System.Drawing.Point(24, 104);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(294, 22);
-            this.textBox1.TabIndex = 18;
+            this.txtSala.BackColor = System.Drawing.Color.GhostWhite;
+            this.txtSala.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtSala.Enabled = false;
+            this.txtSala.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.txtSala.ForeColor = System.Drawing.Color.DarkSlateGray;
+            this.txtSala.Location = new System.Drawing.Point(17, 95);
+            this.txtSala.Name = "txtSala";
+            this.txtSala.Size = new System.Drawing.Size(142, 22);
+            this.txtSala.TabIndex = 18;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label3.ForeColor = System.Drawing.Color.DarkSlateGray;
-            this.label3.Location = new System.Drawing.Point(21, 131);
+            this.label3.Location = new System.Drawing.Point(14, 124);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(72, 15);
             this.label3.TabIndex = 21;
             this.label3.Text = "Termin od";
             // 
-            // textBox2
+            // txtTerminOd
             // 
-            this.textBox2.BackColor = System.Drawing.Color.GhostWhite;
-            this.textBox2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox2.Enabled = false;
-            this.textBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.textBox2.ForeColor = System.Drawing.Color.DarkSlateGray;
-            this.textBox2.Location = new System.Drawing.Point(24, 149);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(142, 22);
-            this.textBox2.TabIndex = 20;
+            this.txtTerminOd.BackColor = System.Drawing.Color.GhostWhite;
+            this.txtTerminOd.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtTerminOd.Enabled = false;
+            this.txtTerminOd.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.txtTerminOd.ForeColor = System.Drawing.Color.DarkSlateGray;
+            this.txtTerminOd.Location = new System.Drawing.Point(17, 142);
+            this.txtTerminOd.Name = "txtTerminOd";
+            this.txtTerminOd.Size = new System.Drawing.Size(142, 22);
+            this.txtTerminOd.TabIndex = 20;
             // 
             // label5
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label5.ForeColor = System.Drawing.Color.DarkSlateGray;
-            this.label5.Location = new System.Drawing.Point(173, 131);
+            this.label5.Location = new System.Drawing.Point(166, 124);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(72, 15);
             this.label5.TabIndex = 23;
             this.label5.Text = "Termin do";
             // 
-            // textBox3
+            // txtTerminDo
             // 
-            this.textBox3.BackColor = System.Drawing.Color.GhostWhite;
-            this.textBox3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox3.Enabled = false;
-            this.textBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.textBox3.ForeColor = System.Drawing.Color.DarkSlateGray;
-            this.textBox3.Location = new System.Drawing.Point(176, 149);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(142, 22);
-            this.textBox3.TabIndex = 22;
+            this.txtTerminDo.BackColor = System.Drawing.Color.GhostWhite;
+            this.txtTerminDo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtTerminDo.Enabled = false;
+            this.txtTerminDo.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.txtTerminDo.ForeColor = System.Drawing.Color.DarkSlateGray;
+            this.txtTerminDo.Location = new System.Drawing.Point(169, 142);
+            this.txtTerminDo.Name = "txtTerminDo";
+            this.txtTerminDo.Size = new System.Drawing.Size(142, 22);
+            this.txtTerminDo.TabIndex = 22;
             // 
             // label6
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label6.ForeColor = System.Drawing.Color.DarkSlateGray;
-            this.label6.Location = new System.Drawing.Point(21, 175);
+            this.label6.Location = new System.Drawing.Point(14, 168);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(47, 15);
             this.label6.TabIndex = 25;
             this.label6.Text = "Status";
             // 
-            // textBox4
+            // txtStatus
             // 
-            this.textBox4.BackColor = System.Drawing.Color.GhostWhite;
-            this.textBox4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox4.Enabled = false;
-            this.textBox4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.textBox4.ForeColor = System.Drawing.Color.DarkSlateGray;
-            this.textBox4.Location = new System.Drawing.Point(24, 193);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(294, 22);
-            this.textBox4.TabIndex = 24;
+            this.txtStatus.BackColor = System.Drawing.Color.GhostWhite;
+            this.txtStatus.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtStatus.Enabled = false;
+            this.txtStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.txtStatus.ForeColor = System.Drawing.Color.DarkSlateGray;
+            this.txtStatus.Location = new System.Drawing.Point(17, 186);
+            this.txtStatus.Name = "txtStatus";
+            this.txtStatus.Size = new System.Drawing.Size(294, 22);
+            this.txtStatus.TabIndex = 24;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.btnIzvestaj);
+            this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.groupBox1.ForeColor = System.Drawing.Color.DarkSlateGray;
+            this.groupBox1.Location = new System.Drawing.Point(91, 221);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(142, 159);
+            this.groupBox1.TabIndex = 29;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Izveštaj";
+            // 
+            // btnIzvestaj
+            // 
+            this.btnIzvestaj.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnIzvestaj.BackgroundImage")));
+            this.btnIzvestaj.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.btnIzvestaj.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnIzvestaj.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnIzvestaj.ForeColor = System.Drawing.Color.White;
+            this.btnIzvestaj.Location = new System.Drawing.Point(7, 21);
+            this.btnIzvestaj.Name = "btnIzvestaj";
+            this.btnIzvestaj.Size = new System.Drawing.Size(128, 128);
+            this.btnIzvestaj.TabIndex = 1;
+            this.btnIzvestaj.UseVisualStyleBackColor = true;
+            this.btnIzvestaj.Click += new System.EventHandler(this.btnIzvestaj_Click);
+            // 
+            // txtSprat
+            // 
+            this.txtSprat.BackColor = System.Drawing.Color.GhostWhite;
+            this.txtSprat.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtSprat.Enabled = false;
+            this.txtSprat.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.txtSprat.ForeColor = System.Drawing.Color.DarkSlateGray;
+            this.txtSprat.Location = new System.Drawing.Point(169, 95);
+            this.txtSprat.Name = "txtSprat";
+            this.txtSprat.Size = new System.Drawing.Size(142, 22);
+            this.txtSprat.TabIndex = 30;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label7.ForeColor = System.Drawing.Color.DarkSlateGray;
+            this.label7.Location = new System.Drawing.Point(166, 78);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(41, 15);
+            this.label7.TabIndex = 31;
+            this.label7.Text = "Sprat";
+            // 
+            // btnBack
+            // 
+            this.btnBack.BackColor = System.Drawing.Color.MediumTurquoise;
+            this.btnBack.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnBack.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnBack.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.btnBack.ForeColor = System.Drawing.Color.DarkSlateGray;
+            this.btnBack.Location = new System.Drawing.Point(17, 397);
+            this.btnBack.Name = "btnBack";
+            this.btnBack.Size = new System.Drawing.Size(139, 30);
+            this.btnBack.TabIndex = 32;
+            this.btnBack.Text = "Nazad";
+            this.btnBack.UseVisualStyleBackColor = false;
+            this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
+            // 
+            // button1
+            // 
+            this.button1.BackColor = System.Drawing.Color.MediumTurquoise;
+            this.button1.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.button1.ForeColor = System.Drawing.Color.DarkSlateGray;
+            this.button1.Location = new System.Drawing.Point(172, 397);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(139, 30);
+            this.button1.TabIndex = 33;
+            this.button1.Text = "Izmeni";
+            this.button1.UseVisualStyleBackColor = false;
             // 
             // OperacijaPrikazForma
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.AliceBlue;
-            this.ClientSize = new System.Drawing.Size(347, 418);
+            this.ClientSize = new System.Drawing.Size(329, 439);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btnBack);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.txtSprat);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label6);
-            this.Controls.Add(this.textBox4);
+            this.Controls.Add(this.txtStatus);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.textBox3);
+            this.Controls.Add(this.txtTerminDo);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.textBox2);
+            this.Controls.Add(this.txtTerminOd);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.txtSala);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.txtId);
             this.Controls.Add(this.label1);
@@ -190,6 +280,7 @@
             this.Name = "OperacijaPrikazForma";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Detalji operacije";
+            this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -201,12 +292,18 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox txtId;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtSala;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox txtTerminOd;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox txtTerminDo;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.TextBox txtStatus;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Button btnIzvestaj;
+        private System.Windows.Forms.TextBox txtSprat;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Button btnBack;
+        private System.Windows.Forms.Button button1;
     }
 }

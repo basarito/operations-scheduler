@@ -28,6 +28,8 @@ namespace Domen
         IZMENI_TIM,
         VRATI_SALE,
         VRATI_TIMOVE,
-        DODAJ_OPERACIJU
+        DODAJ_OPERACIJU,
+        PRETRAGA_OPERACIJA,
+        UCITAJ_OPERACIJU
     }
 }

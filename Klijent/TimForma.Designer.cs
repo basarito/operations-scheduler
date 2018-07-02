@@ -90,7 +90,7 @@
             // checkListStazisti
             // 
             this.checkListStazisti.CheckOnClick = true;
-            this.checkListStazisti.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.checkListStazisti.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.checkListStazisti.ForeColor = System.Drawing.Color.DarkSlateGray;
             this.checkListStazisti.FormattingEnabled = true;
             this.checkListStazisti.Location = new System.Drawing.Point(208, 39);
@@ -113,7 +113,7 @@
             // checkListAnesteziolozi
             // 
             this.checkListAnesteziolozi.CheckOnClick = true;
-            this.checkListAnesteziolozi.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.checkListAnesteziolozi.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.checkListAnesteziolozi.ForeColor = System.Drawing.Color.DarkSlateGray;
             this.checkListAnesteziolozi.FormattingEnabled = true;
             this.checkListAnesteziolozi.Location = new System.Drawing.Point(208, 172);
@@ -136,7 +136,7 @@
             // checkListSestre
             // 
             this.checkListSestre.CheckOnClick = true;
-            this.checkListSestre.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.checkListSestre.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.checkListSestre.ForeColor = System.Drawing.Color.DarkSlateGray;
             this.checkListSestre.FormattingEnabled = true;
             this.checkListSestre.Location = new System.Drawing.Point(11, 172);
@@ -170,7 +170,7 @@
             // checkListHirurzi
             // 
             this.checkListHirurzi.CheckOnClick = true;
-            this.checkListHirurzi.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.checkListHirurzi.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.checkListHirurzi.ForeColor = System.Drawing.Color.DarkSlateGray;
             this.checkListHirurzi.FormattingEnabled = true;
             this.checkListHirurzi.Location = new System.Drawing.Point(11, 39);
@@ -210,6 +210,7 @@
             // cbOdgovornoLice
             // 
             this.cbOdgovornoLice.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbOdgovornoLice.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cbOdgovornoLice.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.cbOdgovornoLice.ForeColor = System.Drawing.Color.DarkSlateGray;
             this.cbOdgovornoLice.FormattingEnabled = true;

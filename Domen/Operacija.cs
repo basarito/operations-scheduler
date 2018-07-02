@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data.OleDb;
 using System.Linq;
 using System.Text;
@@ -25,6 +26,15 @@ namespace Domen
         public Status Status { get; set; }
         public string IzvestajOpis { get; set; }
         public DateTime IzvestajDatum { get; set; }
+
+        public Sala Sala { get; set; }
+        public Tim Tim { get; set; }
+
+        [DisplayName("Termin od")]
+        public string TerminOdFormat => String.Format("{0:d. MMMM yyyy. HH:mm}h", TerminOd);
+
+        [DisplayName("Termin do")]
+        public string TerminDoFormat => String.Format("{0:d. MMMM yyyy. HH:mm}h", TerminDo);
 
         private string format = "dd/MM/yyyy HH:mm";
 
@@ -71,13 +81,39 @@ namespace Domen
 
         public IOpstiDomenskiObjekat VratiObjekat(OleDbDataReader citac)
         {
-            throw new NotImplementedException();
+            IOpstiDomenskiObjekat objekat = null;
+            while (citac.Read())
+            {
+                Operacija o = new Operacija()
+                {
+                    OperacijaID = Convert.ToInt32(citac["operacijaID"]),
+                    SalaID = Convert.ToInt32(citac["salaID"]),
+                    TimID = Convert.ToInt32(citac["timID"]),
+                    Status = (Status)(Convert.ToInt32(citac["status"])),
+                    TerminOd = Convert.ToDateTime(citac["terminOd"]),
+                    TerminDo = Convert.ToDateTime(citac["terminDo"]),
+                    IzvestajOpis = Convert.ToString(citac["izvestajOpis"]),
+                    IzvestajDatum = Convert.ToDateTime(citac["izvestajDatum"])
+                };
+                objekat = o;
+            }
+            return objekat;
         }
 
         public string VratiKriterijumPretrage()
         {
-            //return $"salaID = {SalaID} AND ([terminOd] <'{TerminDo.ToString(format)}' AND [terminDo] >'{TerminOd.ToString(format)}')";
-            return $"salaID = {SalaID} OR timID = {TimID}";
+            if(SalaID == 0 && TimID == 0)
+            {
+                int year = TerminOd.Year;
+                int month = TerminOd.Month;
+                int day = TerminOd.Day;
+
+                return $"Year(terminOd)={year} AND Month(terminOd)={month} AND Day(terminOd)={day}";
+            } else
+            {
+                return $"salaID = {SalaID} OR timID = {TimID}";
+            }
+            
         }
 
         public string VratiZaIzmenu()

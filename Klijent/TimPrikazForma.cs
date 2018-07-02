@@ -15,10 +15,12 @@ namespace Klijent
     {
         public Tim UcitanTim { get; set; }
         public PocetnaTimForma ParentForma { get; set; }
+        public Button ButtonEdit { get; set; }
 
         public TimPrikazForma(Tim tim, PocetnaTimForma parentForm)
         {
             InitializeComponent();
+            ButtonEdit = btnEdit;
             Komunikacija.Instance.UcitajTim(tim);
             PocetnaForma.ApplyDisabledStyle(btnBack);
             PocetnaForma.ApplyDisabledStyle(btnEdit);

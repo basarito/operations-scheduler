@@ -43,9 +43,11 @@
     <Compile Include="DodajOperacijuSO.cs" />
     <Compile Include="IzmeniTimSO.cs" />
     <Compile Include="OpstaSistemskaOperacija.cs" />
+    <Compile Include="PronadjiOperacijeSO.cs" />
     <Compile Include="PronadjiOsobljeSO.cs" />
     <Compile Include="PronadjiTimoveSO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UcitajOperacijuSO.cs" />
     <Compile Include="UcitajOsobljeSO.cs" />
     <Compile Include="UcitajTimSO.cs" />
     <Compile Include="VratiSveOsobljeSO.cs" />

@@ -36,7 +36,6 @@ namespace Server
                 while (!isKraj)
                 {
                     TransferKlasa zahtevKlijenta = formater.Deserialize(tok) as TransferKlasa;
-                    //TransferKlasa odgovor = new TransferKlasa();
                     switch (zahtevKlijenta.Akcija)
                     {
                         case Akcija.KRAJ:
@@ -78,13 +77,49 @@ namespace Server
                         case Akcija.DODAJ_OPERACIJU:
                             HandleDodajOperaciju(zahtevKlijenta);
                             break;
+                        case Akcija.PRETRAGA_OPERACIJA:
+                            HandlePretragaOperacija(zahtevKlijenta);
+                            break;
+                        case Akcija.UCITAJ_OPERACIJU:
+                            HandleUcitajOperciju(zahtevKlijenta);
+                            break;
                     }
                 }
             }
             catch (Exception)
             {
-                Console.WriteLine("Server down.");
+                Console.WriteLine("Doslo je do greske na serveru.");
             }      
+        }
+
+        private void HandleUcitajOperciju(TransferKlasa zahtevKlijenta)
+        {
+            Operacija result = null;
+            var signalPoruka = KontrolerPL.UcitajOperaciju((Operacija)zahtevKlijenta.TransferObjekat, ref result);
+
+            TransferKlasa response = new TransferKlasa()
+            {
+                Akcija = Akcija.UCITAJ_OPERACIJU,
+                TransferObjekat = result,
+                Signal = signalPoruka.Item1,
+                Poruka = signalPoruka.Item2
+            };
+            formater.Serialize(tok, response);
+        }
+
+        private void HandlePretragaOperacija(TransferKlasa zahtevKlijenta)
+        {
+            Operacija op = (Operacija)zahtevKlijenta.TransferObjekat;
+            List<Operacija> result = new List<Operacija>();
+            var signalPoruka = KontrolerPL.PronadjiOperacije(op, ref result);
+            TransferKlasa response = new TransferKlasa()
+            {
+                Akcija = Akcija.PRETRAGA_OPERACIJA,
+                Signal = signalPoruka.Item1,
+                Poruka = signalPoruka.Item2,
+                TransferObjekat = result
+            };
+            formater.Serialize(tok, response);
         }
 
         private void HandleDodajOperaciju(TransferKlasa zahtevKlijenta)
@@ -250,15 +285,14 @@ namespace Server
 
         public void PosaljiKraj()
         {
-            TransferKlasa send = new TransferKlasa
-            {
-                Akcija = Akcija.KRAJ
-            };
-            formater.Serialize(tok, send);
-            Console.WriteLine("server poslao kraj");
             try
             {
-
+                TransferKlasa send = new TransferKlasa
+                {
+                    Akcija = Akcija.KRAJ
+                };
+                formater.Serialize(tok, send);
+                Console.WriteLine("server poslao kraj");
             }
             catch (Exception)
             {

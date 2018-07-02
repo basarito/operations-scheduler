@@ -43,7 +43,6 @@ namespace SistemskeOperacije
                     }
                     BrokerBP.Instance.Ubaci(odo);
                     return true;
-
                 }
                 
             } catch (Exception)

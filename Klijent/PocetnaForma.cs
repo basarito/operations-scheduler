@@ -150,7 +150,7 @@ namespace Klijent
 
         private void btnOpenOperacije_Click(object sender, EventArgs e)
         {
-            PocetnaOperacijaForma = new PocetnaOperacijaForma();
+            PocetnaOperacijaForma = new PocetnaOperacijaForma(this);
             PocetnaOperacijaForma.ShowDialog();
         }
 
