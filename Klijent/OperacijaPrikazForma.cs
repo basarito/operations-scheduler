@@ -42,11 +42,12 @@ namespace Klijent
 
         private void btnIzvestaj_Click(object sender, EventArgs e)
         {
-            if(txtStatus.Text != Status.Odrzana.ToString())
+            if(txtStatus.Text != "Odrzana")
             {
                 MessageBox.Show("Nije moguće uneti izveštaj za operaciju koja nije održana.");
                 return;
             }
+            KontrolerKI.UcitajIzvestaj();
         }
 
         private void btnBack_Click(object sender, EventArgs e)

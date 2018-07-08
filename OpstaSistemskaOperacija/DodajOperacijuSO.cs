@@ -14,6 +14,7 @@ namespace SistemskeOperacije
         {
             try
             {
+                //povlaci operacije u sali ili za tim
                 var result = BrokerBP.Instance.VratiSveUslov(odo);
                 if (result.Count == 0)
                 {

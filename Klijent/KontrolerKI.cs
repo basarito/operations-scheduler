@@ -12,6 +12,7 @@ namespace Klijent
     public class KontrolerKI
     {
         public static String ErrorMessage { get; set; }
+        public static Operacija LoadedOperation { get; set; }
 
         public static PocetnaForma PocetnaForma { get; set; }
         public static OsobljeForma OsobljeForma { get; set; }
@@ -22,6 +23,7 @@ namespace Klijent
         public static TimPrikazForma TimPrikazForma { get; set; }
         public static OperacijaForma OperacijaForma { get; set; }
         public static OperacijaPrikazForma OperacijaPrikazForma { get; set; }
+        public static IzvestajForma IzvestajForma { get; set; }
 
         public KontrolerKI(PocetnaForma forma)
         {
@@ -43,8 +45,34 @@ namespace Klijent
             }
         }
 
+        internal static void UcitajIzvestaj()
+        {
+            if(LoadedOperation != null)
+            {
+                if(string.IsNullOrWhiteSpace(LoadedOperation.IzvestajOpis))
+                {
+                    IzvestajForma = new IzvestajForma("", DateTime.Now);
+                } else
+                {
+                    IzvestajForma = new IzvestajForma(LoadedOperation.IzvestajOpis, LoadedOperation.IzvestajDatum.GetValueOrDefault());
+                }
+                IzvestajForma.ShowDialog();
+            }
+        }
+
+        internal static void SacuvajIzvestaj(string text)
+        {
+            Operacija o = new Operacija()
+            {
+                OperacijaID = LoadedOperation.OperacijaID,
+                IzvestajOpis = text              
+            };
+            Komunikacija.Instance.ZapamtiIzvestaj(o);
+        }
+
         internal static void PrikaziDetaljeOperacije(object dataBoundItem)
         {
+            LoadedOperation = null;
             Operacija o = (Operacija)dataBoundItem;
             OperacijaPrikazForma = new OperacijaPrikazForma(o);
             OperacijaPrikazForma.ShowDialog();
@@ -295,6 +323,9 @@ namespace Klijent
                 case Akcija.UCITAJ_OPERACIJU:
                     forma = OperacijaPrikazForma;
                     break;
+                case Akcija.ZAPAMTI_IZVESTAJ:
+                    forma = IzvestajForma;
+                    break;
             }
             forma?.Invoke(new Action(
                 () =>
@@ -310,7 +341,7 @@ namespace Klijent
             } else if (akcija == Akcija.DODAJ_OPERACIJU)
             {
                 OperacijaForma?.Invoke(new Action(OperacijaForma.Dispose));
-            }
+            } 
         }
 
         internal static void HandleAlternative(Akcija akcija)
@@ -422,12 +453,17 @@ namespace Klijent
                     break;
                 case Akcija.UCITAJ_OPERACIJU:
                     Operacija op = (Operacija)transferObjekat;
+                    LoadedOperation = op;
                     OperacijaPrikazForma?.Invoke(new Action(()=> {
                         OperacijaPrikazForma.PopulateForm(op.OperacijaID.ToString(), op.Sala.NazivSale,
                                                           op.Sala.Sprat, op.TerminOdFormat,
                                                           op.TerminDoFormat, op.Status.ToString());
                         OperacijaPrikazForma.TimID = op.TimID;
                     }));
+                    break;
+                case Akcija.ZAPAMTI_IZVESTAJ:
+                    LoadedOperation = (Operacija)transferObjekat;
+                    IzvestajForma?.Invoke(new Action(IzvestajForma.Dispose));
                     break;
             }
         }

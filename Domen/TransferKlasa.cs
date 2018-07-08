@@ -30,6 +30,7 @@ namespace Domen
         VRATI_TIMOVE,
         DODAJ_OPERACIJU,
         PRETRAGA_OPERACIJA,
-        UCITAJ_OPERACIJU
+        UCITAJ_OPERACIJU,
+        ZAPAMTI_IZVESTAJ
     }
 }

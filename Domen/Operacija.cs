@@ -11,8 +11,8 @@ namespace Domen
     public enum Status
     {
         Zakazana = 1,
-        Otkazana = 2,
-        Odrzana = 3
+        Odrzana = 2,
+        Otkazana = 3
     }
 
     [Serializable]
@@ -25,7 +25,7 @@ namespace Domen
         public DateTime TerminDo { get; set; }
         public Status Status { get; set; }
         public string IzvestajOpis { get; set; }
-        public DateTime IzvestajDatum { get; set; }
+        public DateTime? IzvestajDatum { get; set; }
 
         public Sala Sala { get; set; }
         public Tim Tim { get; set; }
@@ -53,6 +53,11 @@ namespace Domen
             List<IOpstiDomenskiObjekat> lista = new List<IOpstiDomenskiObjekat>();
             while (citac.Read())
             {
+                dynamic datum = null;
+                if(citac["izvestajDatum"] != DBNull.Value)
+                {
+                    datum = Convert.ToDateTime(citac["izvestajDatum"]);
+                } 
                 Operacija o = new Operacija()
                 {
                     OperacijaID = Convert.ToInt32(citac["operacijaID"]),
@@ -62,7 +67,7 @@ namespace Domen
                     TerminOd = Convert.ToDateTime(citac["terminOd"]),
                     TerminDo = Convert.ToDateTime(citac["terminDo"]),
                     IzvestajOpis = Convert.ToString(citac["izvestajOpis"]),
-                    IzvestajDatum = Convert.ToDateTime(citac["izvestajDatum"])
+                    IzvestajDatum = datum
                 };
                 lista.Add(o);
             }
@@ -76,7 +81,7 @@ namespace Domen
 
         public string VratiVrednostiZaInsert()
         {
-            return $"{TimID}, {SalaID},'{TerminOd.ToString(format)}', '{TerminDo.ToString(format)}', {(int)Status}, '', 0";
+            return $"{TimID}, {SalaID},'{TerminOd.ToString(format)}', '{TerminDo.ToString(format)}', {(int)Status}, '', null";
         }
 
         public IOpstiDomenskiObjekat VratiObjekat(OleDbDataReader citac)
@@ -84,6 +89,11 @@ namespace Domen
             IOpstiDomenskiObjekat objekat = null;
             while (citac.Read())
             {
+                dynamic datum = null;
+                if (citac["izvestajDatum"] != DBNull.Value)
+                {
+                    datum = Convert.ToDateTime(citac["izvestajDatum"]);
+                }
                 Operacija o = new Operacija()
                 {
                     OperacijaID = Convert.ToInt32(citac["operacijaID"]),
@@ -93,7 +103,7 @@ namespace Domen
                     TerminOd = Convert.ToDateTime(citac["terminOd"]),
                     TerminDo = Convert.ToDateTime(citac["terminDo"]),
                     IzvestajOpis = Convert.ToString(citac["izvestajOpis"]),
-                    IzvestajDatum = Convert.ToDateTime(citac["izvestajDatum"])
+                    IzvestajDatum = datum
                 };
                 objekat = o;
             }
@@ -118,7 +128,14 @@ namespace Domen
 
         public string VratiZaIzmenu()
         {
-            throw new NotImplementedException();
+            if(!string.IsNullOrWhiteSpace(IzvestajOpis))
+            {
+                return $"izvestajOpis = '{IzvestajOpis}', izvestajDatum = Date()";
+            } else
+            {
+                //todo
+                return "";
+            }
         }
     }
 }

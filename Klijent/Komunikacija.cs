@@ -127,6 +127,9 @@ namespace Klijent
                         case Akcija.UCITAJ_OPERACIJU:
                             HandleUcitajOperaciju(odgovor);
                             break;
+                        case Akcija.ZAPAMTI_IZVESTAJ:
+                            HandleZapamtiIzvestaj(odgovor);
+                            break;
                     }
                 }
 
@@ -138,6 +141,19 @@ namespace Klijent
         }
 
         //RESPONSE HANDLERS
+
+        private void HandleZapamtiIzvestaj(TransferKlasa odgovor)
+        {
+            KontrolerKI.PrikaziPoruku(odgovor.Signal, odgovor.Poruka, Akcija.ZAPAMTI_IZVESTAJ);
+            if(odgovor.Signal)
+            {
+                KontrolerKI.UcitajRezultat(odgovor.TransferObjekat, Akcija.ZAPAMTI_IZVESTAJ);
+            }
+            //else
+            //{
+            //    KontrolerKI.HandleAlternative(Akcija.ZAPAMTI_IZVESTAJ);
+            //}
+        }
 
         private void HandleUcitajOsoblje(TransferKlasa odgovor)
         {
@@ -397,6 +413,17 @@ namespace Klijent
             };
             formater.Serialize(tok, transfer);
         }
+
+        internal void ZapamtiIzvestaj(Operacija o)
+        {
+            TransferKlasa transfer = new TransferKlasa
+            {
+                Akcija = Akcija.ZAPAMTI_IZVESTAJ,
+                TransferObjekat = o
+            };
+            formater.Serialize(tok, transfer);
+        }
+
 
     }
 }

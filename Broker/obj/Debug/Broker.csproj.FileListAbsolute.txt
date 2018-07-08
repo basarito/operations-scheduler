@@ -16,3 +16,12 @@ D:\Fakultet\Projektovanje softvera\Ana Basaric - seminarski\PROJEKAT\Projekat\Pr
 D:\Fakultet\Projektovanje softvera\Ana Basaric - seminarski\PROJEKAT\Projekat\ProjektovanjeSoftveraProjekat - Copy\Broker\obj\Debug\Broker.csproj.CopyComplete
 D:\Fakultet\Projektovanje softvera\Ana Basaric - seminarski\PROJEKAT\Projekat\ProjektovanjeSoftveraProjekat - Copy\Broker\obj\Debug\Broker.dll
 D:\Fakultet\Projektovanje softvera\Ana Basaric - seminarski\PROJEKAT\Projekat\ProjektovanjeSoftveraProjekat - Copy\Broker\obj\Debug\Broker.pdb
+D:\Fakultet\Projektovanje softvera\Ana Basaric - seminarski\PROJEKAT\Projekat\ProjektovanjeSoftveraProjekat Refactored\Broker\bin\Debug\Broker.dll
+D:\Fakultet\Projektovanje softvera\Ana Basaric - seminarski\PROJEKAT\Projekat\ProjektovanjeSoftveraProjekat Refactored\Broker\bin\Debug\Broker.pdb
+D:\Fakultet\Projektovanje softvera\Ana Basaric - seminarski\PROJEKAT\Projekat\ProjektovanjeSoftveraProjekat Refactored\Broker\bin\Debug\Domen.dll
+D:\Fakultet\Projektovanje softvera\Ana Basaric - seminarski\PROJEKAT\Projekat\ProjektovanjeSoftveraProjekat Refactored\Broker\bin\Debug\Domen.pdb
+D:\Fakultet\Projektovanje softvera\Ana Basaric - seminarski\PROJEKAT\Projekat\ProjektovanjeSoftveraProjekat Refactored\Broker\obj\Debug\Broker.csprojAssemblyReference.cache
+D:\Fakultet\Projektovanje softvera\Ana Basaric - seminarski\PROJEKAT\Projekat\ProjektovanjeSoftveraProjekat Refactored\Broker\obj\Debug\Broker.csproj.CoreCompileInputs.cache
+D:\Fakultet\Projektovanje softvera\Ana Basaric - seminarski\PROJEKAT\Projekat\ProjektovanjeSoftveraProjekat Refactored\Broker\obj\Debug\Broker.csproj.CopyComplete
+D:\Fakultet\Projektovanje softvera\Ana Basaric - seminarski\PROJEKAT\Projekat\ProjektovanjeSoftveraProjekat Refactored\Broker\obj\Debug\Broker.dll
+D:\Fakultet\Projektovanje softvera\Ana Basaric - seminarski\PROJEKAT\Projekat\ProjektovanjeSoftveraProjekat Refactored\Broker\obj\Debug\Broker.pdb

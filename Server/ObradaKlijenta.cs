@@ -83,6 +83,9 @@ namespace Server
                         case Akcija.UCITAJ_OPERACIJU:
                             HandleUcitajOperciju(zahtevKlijenta);
                             break;
+                        case Akcija.ZAPAMTI_IZVESTAJ:
+                            HandleZapamtiIzvestaj(zahtevKlijenta);
+                            break;
                     }
                 }
             }
@@ -90,6 +93,23 @@ namespace Server
             {
                 Console.WriteLine("Doslo je do greske na serveru.");
             }      
+        }
+
+        private void HandleZapamtiIzvestaj(TransferKlasa zahtevKlijenta)
+        {
+            Operacija result = null;
+            Operacija operacija = (Operacija)zahtevKlijenta.TransferObjekat;
+            var signalPoruka = KontrolerPL.ZapamtiIzvestaj(operacija, ref result);            
+
+            TransferKlasa response = new TransferKlasa()
+            {
+                Akcija = Akcija.ZAPAMTI_IZVESTAJ,
+                Signal = signalPoruka.Item1,
+                Poruka = signalPoruka.Item2,
+                TransferObjekat = result
+                
+            };
+            formater.Serialize(tok, response);
         }
 
         private void HandleUcitajOperciju(TransferKlasa zahtevKlijenta)

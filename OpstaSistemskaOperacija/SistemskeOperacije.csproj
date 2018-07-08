@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DodajOperacijuSO.cs" />
+    <Compile Include="IzmeniOperacijuSO.cs" />
     <Compile Include="IzmeniTimSO.cs" />
     <Compile Include="OpstaSistemskaOperacija.cs" />
     <Compile Include="PronadjiOperacijeSO.cs" />

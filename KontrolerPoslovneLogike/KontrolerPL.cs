@@ -13,40 +13,44 @@ namespace KontrolerPoslovneLogike
         public static Tuple<bool, string> SacuvajOsoblje(Osoblje o)
         {
             OpstaSistemskaOperacija ucitajOsoblje = new UcitajOsobljeSO();
-            if(ucitajOsoblje.IzvrsiSO(o))
+            if (ucitajOsoblje.IzvrsiSO(o))
             {
                 //osoblje vec postoji
                 return new Tuple<bool, string>(false, "Osoblje već postoji!");
-            } else
+            }
+            else
             {
                 OpstaSistemskaOperacija zapamtiOsoblje = new ZapamtiOsobljeSO();
                 bool result = zapamtiOsoblje.IzvrsiSO(o);
-                if(result)
+                if (result)
                 {
                     return new Tuple<bool, string>(true, "Uspešno sačuvano medicinsko osoblje.");
-                } else
+                }
+                else
                 {
                     return new Tuple<bool, string>(false, "Sistem ne može da sačuva medicinsko osoblje.");
                 }
             }
-            
+
         }
 
         public static Tuple<bool, string> PronadjiOsoblje(Osoblje o, ref List<IOpstiDomenskiObjekat> lista)
         {
             OpstaSistemskaOperacija pronadjiOsoblje = new PronadjiOsobljeSO();
             bool result = pronadjiOsoblje.IzvrsiSO(o);
-            if(result)
+            if (result)
             {
                 lista = (List<IOpstiDomenskiObjekat>)pronadjiOsoblje.Rezultat;
-                if(lista.Count > 0)
+                if (lista.Count > 0)
                 {
                     return new Tuple<bool, string>(true, "Pronađena su osoblja za zadatu vrednost.");
-                } else
+                }
+                else
                 {
                     return new Tuple<bool, string>(false, "Sistem ne može da pronađe osoblja za zadatu vrednost.");
                 }
-            } else
+            }
+            else
             {
                 return new Tuple<bool, string>(false, "Sistem ne može da pronađe osoblja za zadatu vrednost.");
             }
@@ -70,11 +74,12 @@ namespace KontrolerPoslovneLogike
         public static Tuple<bool, string> VratiSveOsoblje(ref List<IOpstiDomenskiObjekat> result)
         {
             OpstaSistemskaOperacija vratiSveOsoblje = new VratiSveOsobljeSO();
-            if( vratiSveOsoblje.IzvrsiSO(new Osoblje()) )
+            if (vratiSveOsoblje.IzvrsiSO(new Osoblje()))
             {
                 result = (List<IOpstiDomenskiObjekat>)vratiSveOsoblje.Rezultat;
                 return new Tuple<bool, string>(true, "Uspešno pronađena sva osoblja.");
-            } else
+            }
+            else
             {
                 return new Tuple<bool, string>(false, "Sistem ne može da vrati sva osoblja.");
             }
@@ -86,9 +91,9 @@ namespace KontrolerPoslovneLogike
             if (izmeniTim.IzvrsiSO(tim))
             {
                 OpstaSistemskaOperacija ucitajTim = new UcitajTimSO();
-                if(ucitajTim.IzvrsiSO(tim))
+                if (ucitajTim.IzvrsiSO(tim))
                 {
-                    result = (Tim)ucitajTim.Rezultat;                    
+                    result = (Tim)ucitajTim.Rezultat;
                 }
                 return new Tuple<bool, string>(true, "Uspešno sačuvan tim.");
             }
@@ -101,38 +106,60 @@ namespace KontrolerPoslovneLogike
         public static Tuple<bool, string> UcitajOperaciju(Operacija operacija, ref Operacija result)
         {
             OpstaSistemskaOperacija ucitajOperaciju = new UcitajOperacijuSO();
-            if(ucitajOperaciju.IzvrsiSO(operacija))
+            if (ucitajOperaciju.IzvrsiSO(operacija))
             {
-                if(ucitajOperaciju.Rezultat != null)
+                if (ucitajOperaciju.Rezultat != null)
                 {
                     result = (Operacija)ucitajOperaciju.Rezultat;
                     return new Tuple<bool, string>(true, "Uspešno učitana operacija.");
-                } else
+                }
+                else
                 {
                     return new Tuple<bool, string>(false, "Sistem ne može da učita operaciju.");
                 }
-            } else
+            }
+            else
             {
                 return new Tuple<bool, string>(false, "Sistem ne može da učita operaciju.");
+            }
+        }
+
+        public static Tuple<bool, string> ZapamtiIzvestaj(Operacija operacija, ref Operacija result)
+        {
+            OpstaSistemskaOperacija izmeniOperaciju = new IzmeniOperacijuSO();
+            if (izmeniOperaciju.IzvrsiSO(operacija))
+            {
+                OpstaSistemskaOperacija ucitajOperaciju = new UcitajOperacijuSO();
+                if (ucitajOperaciju.IzvrsiSO(operacija))
+                {
+                    result = (Operacija)ucitajOperaciju.Rezultat;
+                }
+                return new Tuple<bool, string>(true, "Uspešno sačuvana operacija.");
+            }
+            else
+            {
+                return new Tuple<bool, string>(false, "Sistem ne može da sačuva operaciju.");
             }
         }
 
         public static Tuple<bool, string> PronadjiOperacije(Operacija op, ref List<Operacija> result)
         {
             OpstaSistemskaOperacija pronadjiOperacije = new PronadjiOperacijeSO();
-            if(pronadjiOperacije.IzvrsiSO(op))
+            if (pronadjiOperacije.IzvrsiSO(op))
             {
                 var rez = (List<Operacija>)pronadjiOperacije.Rezultat;
-                if(rez.Count > 0)
+                if (rez.Count > 0)
                 {
                     result = rez;
                     return new Tuple<bool, string>(true, "Uspešno pronađene operacije za zadatu vrednost.");
-                } else
+                }
+                else
                 {
                     return new Tuple<bool, string>(false, "Sistem ne može da pronađe operacije za zadatu vrednost.");
                 }
-                
-            } else
+
+            }
+            else
             {
                 return new Tuple<bool, string>(false, "Sistem ne može da pronađe operacije za zadatu vrednost.");
             }
@@ -141,10 +168,11 @@ namespace KontrolerPoslovneLogike
         public static Tuple<bool, string> DodajOperaciju(Operacija operacija)
         {
             OpstaSistemskaOperacija dodajOperaciju = new DodajOperacijuSO();
-            if(dodajOperaciju.IzvrsiSO(operacija))
+            if (dodajOperaciju.IzvrsiSO(operacija))
             {
                 return new Tuple<bool, string>(true, "Uspešno sačuvana operacija.");
-            } else
+            }
+            else
             {
                 return new Tuple<bool, string>(false, "Sistem ne može da sačuva operaciju.");
             }
@@ -158,12 +186,13 @@ namespace KontrolerPoslovneLogike
                 var timovi = (List<IOpstiDomenskiObjekat>)vratiSveTimove.Rezultat;
                 OpstaSistemskaOperacija ucitajTim = new UcitajTimSO();
                 List<Tim> konacan = new List<Tim>();
-                foreach(var tim in timovi)
+                foreach (var tim in timovi)
                 {
-                    if(ucitajTim.IzvrsiSO(tim))
+                    if (ucitajTim.IzvrsiSO(tim))
                     {
                         konacan.Add((Tim)ucitajTim.Rezultat);
-                    } else
+                    }
+                    else
                     {
                         return new Tuple<bool, string>(true, "Sistem ne moze da ucita sve timove.");
                     }
@@ -180,7 +209,7 @@ namespace KontrolerPoslovneLogike
         public static Tuple<bool, string> VratiSveSale(ref List<Sala> result)
         {
             OpstaSistemskaOperacija vratiSveSale = new VratiSveSaleSO();
-            if(vratiSveSale.IzvrsiSO(new Sala()))
+            if (vratiSveSale.IzvrsiSO(new Sala()))
             {
                 var rez = (List<IOpstiDomenskiObjekat>)vratiSveSale.Rezultat;
                 List<Sala> sale = new List<Sala>();
@@ -189,8 +218,9 @@ namespace KontrolerPoslovneLogike
                     sale.Add((Sala)r);
                 }
                 result = sale;
-                return new Tuple<bool, string>(true,"Uspesno ucitane sve sale.");
-            } else
+                return new Tuple<bool, string>(true, "Uspesno ucitane sve sale.");
+            }
+            else
             {
                 return new Tuple<bool, string>(true, "Sistem ne moze da ucita sve sale.");
             }
@@ -199,12 +229,13 @@ namespace KontrolerPoslovneLogike
         public static Tuple<bool, string> UcitajTim(Tim tim, ref Tim result)
         {
             OpstaSistemskaOperacija ucitajTim = new UcitajTimSO();
-            if(ucitajTim.IzvrsiSO(tim))
+            if (ucitajTim.IzvrsiSO(tim))
             {
                 result = (Tim)ucitajTim.Rezultat;
                 return new Tuple<bool, string>(true, "Uspešno učitan tim.");
 
-            } else
+            }
+            else
             {
                 return new Tuple<bool, string>(false, "Sistem ne može da učita tim.");
             }
