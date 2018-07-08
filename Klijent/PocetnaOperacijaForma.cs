@@ -14,16 +14,11 @@ namespace Klijent
     public partial class PocetnaOperacijaForma : Form
     {
         bool isDetailsEnabled = false;
-        BindingList<Operacija> searchResults = new BindingList<Operacija>();
-        public OperacijaPrikazForma OperacijaPrikazForma { get; set; }
-        public PocetnaForma ParentForma { get; set; }
+        public DataGridView DgvSearchResult { get { return dgvSearchResult; } }
 
-        public OperacijaForma OperacijaForma { get; set; }
-
-        public PocetnaOperacijaForma(PocetnaForma pf)
+        public PocetnaOperacijaForma()
         {
-            InitializeComponent();
-            ParentForma = pf;
+            InitializeComponent(); 
         }
 
         private void btnBack_Click(object sender, EventArgs e)
@@ -35,33 +30,30 @@ namespace Klijent
         {
             if(isDetailsEnabled)
             {
-                Operacija o = (Operacija)dgvSearchResult.SelectedRows[0].DataBoundItem;
-                OperacijaPrikazForma = new OperacijaPrikazForma(o, this);
-                OperacijaPrikazForma.ShowDialog();
+                KontrolerKI.PrikaziDetaljeOperacije(dgvSearchResult.SelectedRows[0].DataBoundItem);
             }
         }
 
         private void btnOpenNewOperation_Click(object sender, EventArgs e)
         {
-            OperacijaForma = new OperacijaForma();
-            OperacijaForma.ShowDialog();
+            KontrolerKI.OpenOperacijaFormu();
         }
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
             DateTime datum = datePickerDatum.Value;
-            Operacija op = new Operacija()
-            {
-                TerminOd = datum
-            };
-            Komunikacija.Instance.PretragaOperacija(op);
+            KontrolerKI.PretraziOperacije(datum);
             this.Cursor = Cursors.WaitCursor;
         }
 
         private void PocetnaOperacijaForma_Load(object sender, EventArgs e)
         {
             PocetnaForma.ApplyDisabledStyle(btnDetails);
-            dgvSearchResult.DataSource = searchResults;
+
+        }
+
+        private void PostaviDGView()
+        {
             dgvSearchResult.Columns["OperacijaID"].Visible = false;
             dgvSearchResult.Columns["SalaID"].Visible = false;
             dgvSearchResult.Columns["TimID"].Visible = false;
@@ -76,26 +68,24 @@ namespace Klijent
             dgvSearchResult.Columns["Sala"].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
             dgvSearchResult.Columns["Status"].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
             dgvSearchResult.MultiSelect = false;
-        }
-
-        internal void ShowResponse(TransferKlasa odgovor)
-        {
-            MessageBox.Show(odgovor.Poruka);
-            this.Cursor = Cursors.Arrow;
-            if(!odgovor.Signal)
+            if(dgvSearchResult.Rows.Count > 0)
             {
-                searchResults.Clear();
-                isDetailsEnabled = false;
-                PocetnaForma.ApplyDisabledStyle(btnDetails);
+                dgvSearchResult.Rows[0].Selected = true;
             }
         }
 
-        internal void PrikaziRezultatPretrage(List<Operacija> transferObjekat)
+        internal void NoResultDgv()
         {
-            searchResults.Clear();
-            transferObjekat.ForEach(o => searchResults.Add(o));
+                isDetailsEnabled = false;
+                PocetnaForma.ApplyDisabledStyle(btnDetails);
+        }
+
+        internal void PrikaziRezultatPretrage()
+        {
+            PostaviDGView();
             isDetailsEnabled = true;
             PocetnaForma.ApplyEnabledStyle(btnDetails);
+            
         }
     }
 }

@@ -14,6 +14,12 @@ namespace Klijent
     public partial class OsobljeForma : Form
     {
         bool isBtnDetailsEnabled = false;
+        public ListBox ListSearchResults
+        {
+            get { return listSearchResults; }
+            set { listSearchResults = value; }
+        }
+
         public OsobljeForma()
         {
             InitializeComponent();
@@ -25,11 +31,7 @@ namespace Klijent
         {
             if(isBtnDetailsEnabled)
             {
-                Osoblje o = (Osoblje)listSearchResults.SelectedItem;
-                Komunikacija.Instance.UcitajOsoblje(o);
-                this.Cursor = Cursors.WaitCursor;
-                PocetnaForma.ApplyDisabledStyle(btnDetails);
-                isBtnDetailsEnabled = false;
+                KontrolerKI.OpenOsobljePrikazFormu(listSearchResults.SelectedItem);
             } else
             {
                 return;
@@ -43,15 +45,14 @@ namespace Klijent
 
         private void OsobljeForma_Load(object sender, EventArgs e)
         {
-            cbPozicija.DataSource = new List<Pozicija>()
-            { Pozicija.Hirurg, Pozicija.Sestra, Pozicija.Stazista, Pozicija.Anesteziolog};
+            cbPozicija.DataSource = KontrolerKI.VratiListuPozicija();
         }
 
         private void btnSave_Click(object sender, EventArgs e)
         {
             string imePrezime = txtImePrezime.Text.Trim();
             string jmbg = txtJmbg.Text.Trim();
-            Pozicija pozicija = (Pozicija)cbPozicija.SelectedItem;
+            var pozicija = cbPozicija.SelectedItem;
 
             if (!ValidateName(imePrezime))
             {
@@ -64,52 +65,14 @@ namespace Klijent
                 MessageBox.Show("Neispravno popunjen JMBG!", "Neispravno polje");
                 return;
             }
-            Osoblje o = new Osoblje()
-            {
-                ImePrezime = imePrezime,
-                Jmbg = jmbg,
-                Pozicija = pozicija
-            };
 
-            Komunikacija.Instance.DodajOsoblje(o);
+            KontrolerKI.SacuvajOsoblje(imePrezime, jmbg, pozicija);
+            this.Cursor = Cursors.WaitCursor;
         }
 
-        delegate void HandleResponseDelegate(TransferKlasa tk);
-
-        public void HandleResponse(TransferKlasa response)
+        public void PrikaziRezultatePretrage(int count)
         {
-            Invoke(new HandleResponseDelegate(ShowMessageBox), response);
-            
-        }
-
-        public void ShowMessageBox(TransferKlasa response)
-        {
-            if (response.Signal)
-            {
-                MessageBox.Show(response.Poruka, "Uspešno!");
-                ResetForm();
-            }
-            else
-            {
-                MessageBox.Show(response.Poruka, "Došlo je do greške!");
-            }
-        }
-
-
-        public void PrikaziRezultatePretragePoziv(TransferKlasa tk)
-        {
-            Invoke(new HandleResponseDelegate(PrikaziRezultatePretrage), tk);
-        }
-        public void PrikaziRezultatePretrage(TransferKlasa tk)
-        {
-            var lista = (IList<IOpstiDomenskiObjekat>)tk.TransferObjekat;
-            List<Osoblje> lista2 = new List<Osoblje>();
-            foreach (var odo in lista)
-            {
-                lista2.Add((Osoblje)odo);
-            }
-            listSearchResults.DataSource = lista2;
-            if(lista2.Count > 0)
+            if(count > 0)
             {
                 PocetnaForma.ApplyEnabledStyle(btnDetails);
                 isBtnDetailsEnabled = true;
@@ -118,23 +81,6 @@ namespace Klijent
                 PocetnaForma.ApplyDisabledStyle(btnDetails);
                 isBtnDetailsEnabled = false;
             }
-        }
-
-        public void PrikaziDetaljePoziv(TransferKlasa tk)
-        {
-            Invoke(new HandleResponseDelegate(UcitajOsoblje), tk);
-        }
-
-        public void UcitajOsoblje(TransferKlasa tk)
-        {
-            Osoblje o = (Osoblje)tk.TransferObjekat;            
-            if(tk.Signal)
-            {
-                new OsobljePrikazForma(o).ShowDialog();             
-            }
-            this.Cursor = Cursors.Default;
-            PocetnaForma.ApplyEnabledStyle(btnDetails);
-            isBtnDetailsEnabled = true;
         }
 
         public void ResetForm()
@@ -180,12 +126,8 @@ namespace Klijent
                 isBtnDetailsEnabled = false;
                 return;
             }
-            Osoblje o = new Osoblje()
-            {
-                ImePrezime = kriterijum,
-                Jmbg = kriterijum
-            };
-            Komunikacija.Instance.PretragaOsoblja(o);
+            KontrolerKI.PretraziOsoblje(kriterijum);
+            this.Cursor = Cursors.WaitCursor;
         }
 
         private void listSearchResults_DoubleClick(object sender, EventArgs e)

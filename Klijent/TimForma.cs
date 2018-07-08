@@ -14,39 +14,57 @@ namespace Klijent
 {
     public partial class TimForma : Form
     {
-        public List<Osoblje> ListaOsoblja { get; set; }
-        public BindingList<Osoblje> tim = new BindingList<Osoblje>();
-        bool isEnabled = false;
-        public Tim TimEdit { get; set; }
+        public BindingList<object> TimBinding { get; set; }
 
-        public TimForma(Tim t = null)
+        bool isEnabled = false;
+        public Object TimEdit { get; set; }
+
+        public CheckedListBox CheckedListHirurzi { get { return checkListHirurzi; } }
+        public CheckedListBox CheckedListStazisti { get { return checkListStazisti; } }
+        public CheckedListBox CheckedListSestre { get { return checkListSestre; } }
+        public CheckedListBox CheckedListAnesteziolozi { get { return checkListAnesteziolozi; } }
+
+        public ComboBox ComboBoxOdgovornoLice { get { return cbOdgovornoLice; } }
+
+        public TimForma(object tim = null, string naziv = "")
         {
             InitializeComponent();
-            Komunikacija.Instance.VratiSveOsoblje();
-            if (t != null)
+            TimBinding = new BindingList<object>();
+            KontrolerKI.VratiSveOsoblje();
+            if(tim != null)
             {
-                TimEdit = t;
+                TimEdit = tim;
                 this.Text = "Izmena tima";
+                txtNazivTima.Text = naziv;
             }
         }
 
         private void TimForma_Load(object sender, EventArgs e)
         {
             SetControlEnable(false);
-            //this.Enabled = false;
-            //this.Cursor = Cursors.WaitCursor;
-            cbOdgovornoLice.DataSource = tim;
+            cbOdgovornoLice.DataSource = TimBinding;
+            
         }
 
         public void ResetForm()
         {
-            tim.Clear();
+            SetControlEnable(true);
+            TimBinding.Clear();
             txtNazivTima.Clear();
-            checkListHirurzi.Items.Clear();
-            checkListStazisti.Items.Clear();
-            checkListSestre.Items.Clear();
-            checkListAnesteziolozi.Items.Clear();
-            PopulateListBoxes();
+
+            UncheckAll(checkListHirurzi);
+            UncheckAll(checkListStazisti);
+            UncheckAll(checkListSestre);
+            UncheckAll(checkListAnesteziolozi);
+        }
+
+        private void UncheckAll(CheckedListBox clb)
+        {
+            foreach (int i in clb.CheckedIndices)
+            {
+                clb.SetItemCheckState(i, CheckState.Unchecked);
+            }
+            clb.ClearSelected();
         }
 
         public void SetControlEnable(bool state)
@@ -80,92 +98,32 @@ namespace Klijent
             }
         }
 
-        public void PopulateListBoxes()
+        public void AfterPopulatedListBoxes()
         {
-            foreach (Osoblje o in ListaOsoblja)
-            {
-                switch (o.Pozicija)
-                {
-                    case Pozicija.Hirurg:
-                        checkListHirurzi.Items.Add(o);
-                        break;
-                    case Pozicija.Stazista:
-                        checkListStazisti.Items.Add(o);
-                        break;
-                    case Pozicija.Sestra:
-                        checkListSestre.Items.Add(o);
-                        break;
-                    case Pozicija.Anesteziolog:
-                        checkListAnesteziolozi.Items.Add(o);
-                        break;
-                }
-            }
             checkListHirurzi.DisplayMember = "ImePrezime";
             checkListStazisti.DisplayMember = "ImePrezime";
             checkListSestre.DisplayMember = "ImePrezime";
             checkListAnesteziolozi.DisplayMember = "ImePrezime";
             SetControlEnable(true);
 
+
             //if edit mode:
-            if (TimEdit != null)
+            if(TimEdit != null)
             {
-                CheckExistingMembers(checkListHirurzi);
-                CheckExistingMembers(checkListStazisti);
-                CheckExistingMembers(checkListSestre);
-                CheckExistingMembers(checkListAnesteziolozi);
-
-                txtNazivTima.Text = TimEdit.NazivTima;
-
-                ClanTima odgovoran = TimEdit.ClanoviTima.Find(clan => clan.Odgovoran == true);
-                if(odgovoran != null)
-                {
-                    var osoblje = tim.Where(o => o.OsobljeID == odgovoran.Osoblje.OsobljeID);
-                    cbOdgovornoLice.SelectedItem = osoblje.First();
-                } else
-                {
-                    cbOdgovornoLice.SelectedItem = tim.First();
-                }
+                KontrolerKI.UcitajTimZaIzmenu(TimEdit);
             }
         }
 
-        public void CheckExistingMembers(CheckedListBox list)
-        {
-            var items = list.Items;
-            for (int i = 0; i < items.Count; i++)
-            {
-                int id = ((Osoblje)items[i]).OsobljeID;
-                var find = TimEdit.ClanoviTima.Find(clan => clan.OsobljeID == id);
-                if (find != null)
-                {
-                    list.SetItemCheckState(i, CheckState.Checked);
-                }
-                else
-                {
-                    list.SetItemCheckState(i, CheckState.Unchecked);
-                }
-            }
-        }
-
-        public delegate void PopulateListDelegate(List<Osoblje> o);
-        internal void PopulateList(List<Osoblje> o)
-        {
-            ListaOsoblja = o;
-        }
-    
         private void checkListBox_ItemCheck(object sender, ItemCheckEventArgs e)
         {
-            if(e.NewValue == CheckState.Checked)
-            {
-                tim.Add((Osoblje) ((CheckedListBox)sender).Items[e.Index]);
-            } else if(e.NewValue == CheckState.Unchecked)
-            {
-                tim.Remove((Osoblje)((CheckedListBox)sender).Items[e.Index]);
+            if (e.NewValue == CheckState.Checked)
+            {               
+                TimBinding.Add(((CheckedListBox)sender).Items[e.Index]);
             }
-        }
-
-        public void ShowResponse(TransferKlasa tk)
-        {
-            MessageBox.Show(tk.Poruka);
+            else if (e.NewValue == CheckState.Unchecked)
+            {
+                TimBinding.Remove(((CheckedListBox)sender).Items[e.Index]);
+            }
         }
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -174,44 +132,39 @@ namespace Klijent
             {
                 return;
             }
+
             if (String.IsNullOrWhiteSpace(txtNazivTima.Text))
             {
                 MessageBox.Show("Molimo popunite naziv tima!", "Neispravan unos");
                 return;
-            }
-            if (!tim.Any(t => t.Pozicija == Pozicija.Hirurg))
+            }         
+ 
+            if (checkListHirurzi.CheckedItems.Count == 0)
             {
                 MessageBox.Show("Tim mora sadržati bar jednog hirurga", "Neispravan unos");
                 return;
             }
-            if (!tim.Any(t => t.Pozicija == Pozicija.Sestra))
+            if (checkListSestre.CheckedItems.Count == 0)
             {
                 MessageBox.Show("Tim mora sadržati bar jednu sestru", "Neispravan unos");
                 return;
             }
-            if (!tim.Any(t => t.Pozicija == Pozicija.Anesteziolog))
+            if (checkListAnesteziolozi.CheckedItems.Count == 0)
             {
                 MessageBox.Show("Tim mora sadržati bar jednog anesteziologa", "Neispravan unos");
                 return;
             }
 
             SetControlEnable(false);
-            Tim noviTim = new Tim()
-            {
-                NazivTima = txtNazivTima.Text.Trim()
-            };
-            List<Osoblje> clanoviTima = tim.ToList();
-            Osoblje odgovoran = (Osoblje)cbOdgovornoLice.SelectedItem;
-            if(TimEdit != null)
-            {
-                noviTim.TimID = TimEdit.TimID;
-                Komunikacija.Instance.IzmeniTim(noviTim, clanoviTima, odgovoran);
-            } else
-            {
-                Komunikacija.Instance.DodajTim(noviTim, clanoviTima, odgovoran);
-            }
-            
 
+            if (TimEdit != null)
+            {
+                KontrolerKI.IzmeniTim(TimEdit, txtNazivTima.Text.Trim(), TimBinding, cbOdgovornoLice.SelectedItem);
+            }
+            else
+            {
+                KontrolerKI.DodajNoviTim(txtNazivTima.Text.Trim(), TimBinding, cbOdgovornoLice.SelectedItem);
+            }
         }
     }
 }

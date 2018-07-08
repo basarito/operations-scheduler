@@ -111,6 +111,7 @@
             this.cbSale.Name = "cbSale";
             this.cbSale.Size = new System.Drawing.Size(392, 24);
             this.cbSale.TabIndex = 17;
+            this.cbSale.DataSourceChanged += new System.EventHandler(this.cbSale_DataSourceChanged);
             // 
             // label2
             // 

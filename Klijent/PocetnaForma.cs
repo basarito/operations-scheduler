@@ -21,33 +21,27 @@ namespace Klijent
 
         public PocetnaForma()
         {
+            KontrolerKI kontrolerKI = new KontrolerKI(this);
             InitializeComponent();
         }
 
         private void btnOpenOsoblje_Click(object sender, EventArgs e)
         {
-            OsobljeForma = new OsobljeForma();
-            OsobljeForma.ShowDialog();
+            KontrolerKI.OpenOsobljeFormu();
         }
 
         private void btnOpenTim_Click(object sender, EventArgs e)
         {
-            PocetnaTimForma = new PocetnaTimForma();
-            PocetnaTimForma.ShowDialog();
+            KontrolerKI.OpenPocetnuTimFormu();
         }
 
         private void btnBeginSession_Click(object sender, EventArgs e)
         {
-            if(isStartEnabled)
+            if (isStartEnabled)
             {
-                try
+                if (!KontrolerKI.BeginSession())
                 {
-                    Komunikacija.Instance.PoveziSe();
-                    Komunikacija.Instance.OsluskujOdgovore(this);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Došlo je do greške! \n" + ex.Message);
+                    MessageBox.Show("Doslo je do greske pri povezivanju na server. Molimo pokusajte kasnije.");
                     return;
                 }
 
@@ -60,7 +54,8 @@ namespace Klijent
 
                 lblStatus.Visible = false;
                 lblStatusOK.Visible = true;
-            } else
+            }
+            else
             {
                 return;
             }
@@ -105,21 +100,16 @@ namespace Klijent
 
         private void btnEndSession_Click(object sender, EventArgs e)
         {
-           if(isEndEnabled)
+            if (isEndEnabled)
             {
-                try
+                if (!KontrolerKI.EndSession())
                 {
-                    Komunikacija.Instance.Kraj();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Došlo je do greške! \n" + ex.Message);
+                    MessageBox.Show("Doslo je do greske!" + KontrolerKI.ErrorMessage);
                     return;
                 }
-
                 EndSession();
-                
-            } else
+            }
+            else
             {
                 return;
             }
@@ -127,15 +117,6 @@ namespace Klijent
 
         public void EndSession()
         {
-            if(Application.OpenForms.Count > 1)
-            {
-                for (int i = Application.OpenForms.Count - 1; i >= 0; i--)
-                {
-                    if (Application.OpenForms[i].Name != "PocetnaForma")
-                        Application.OpenForms[i].Dispose();
-                }
-            }
-
             HideControls();
 
             ApplyDisabledStyle(btnEndSession);
@@ -150,10 +131,8 @@ namespace Klijent
 
         private void btnOpenOperacije_Click(object sender, EventArgs e)
         {
-            PocetnaOperacijaForma = new PocetnaOperacijaForma(this);
-            PocetnaOperacijaForma.ShowDialog();
+            KontrolerKI.OpenPocetnuOperacijaFormu();
         }
 
-        
     }
 }

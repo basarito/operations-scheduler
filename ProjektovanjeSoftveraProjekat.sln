@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server", "Server\Server.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domen", "Domen\Domen.csproj", "{8C3C7825-F438-4C86-B54C-F672FE09CC99}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Klijent", "Klijent\Klijent.csproj", "{BB52EA91-6CCE-47A7-90D8-5476CD29AD7B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KorisnickiInterfejs", "Klijent\KorisnickiInterfejs.csproj", "{BB52EA91-6CCE-47A7-90D8-5476CD29AD7B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KontrolerPoslovneLogike", "KontrolerPoslovneLogike\KontrolerPoslovneLogike.csproj", "{51025343-4798-4EFE-B6B9-07E78FD1154E}"
 EndProject

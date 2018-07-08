@@ -1,6 +1,7 @@
 ﻿using Domen;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Sockets;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -14,6 +15,7 @@ namespace Klijent
     {
         private PocetnaForma Forma { get; set; }
         bool isKraj = false;
+        Thread OsluskujNit = null;
 
         #region singleton
         private static Komunikacija instance;
@@ -56,18 +58,20 @@ namespace Klijent
 
         public void Kraj()
         {
+            isKraj = true;
             TransferKlasa transfer = new TransferKlasa
             {
                 Akcija = Akcija.KRAJ,
             };
             formater.Serialize(tok, transfer);
+
             klijent.Close();
         }
 
-        public void OsluskujOdgovore(PocetnaForma forma)
+        public void OsluskujOdgovore()
         {
-            Forma = forma;
-            new Thread(Osluskuj).Start();
+            OsluskujNit = new Thread(Osluskuj);
+            OsluskujNit.Start();
         }
 
         public void Osluskuj()
@@ -85,15 +89,13 @@ namespace Klijent
                             HandleServerExit();
                             break;
                         case Akcija.DODAJ_OSOBLJE:
-                            Forma.OsobljeForma.HandleResponse(odgovor);
+                            HandleDodajOsoblje(odgovor);
                             break;
                         case Akcija.PRETRAGA_OSOBLJE:
-                            Forma.OsobljeForma.HandleResponse(odgovor);
-                            Forma.OsobljeForma.PrikaziRezultatePretragePoziv(odgovor);
+                            HandlePretragaOsoblja(odgovor);
                             break;
                         case Akcija.UCITAJ_OSOBLJE:
-                            Forma.OsobljeForma.HandleResponse(odgovor);
-                            Forma.OsobljeForma.PrikaziDetaljePoziv(odgovor);
+                            HandleUcitajOsoblje(odgovor);
                             break;
                         case Akcija.VRATI_OSOBLJE:
                             HandleVratiSveOsoblje(odgovor);
@@ -131,120 +133,143 @@ namespace Klijent
             }
             catch (Exception)
             {
-
+                
             }
+        }
+
+        //RESPONSE HANDLERS
+
+        private void HandleUcitajOsoblje(TransferKlasa odgovor)
+        {
+            KontrolerKI.PrikaziPoruku(odgovor.Signal, odgovor.Poruka, Akcija.UCITAJ_OSOBLJE);
+            if (odgovor.Signal)
+            {
+                KontrolerKI.UcitajRezultat(odgovor.TransferObjekat, Akcija.UCITAJ_OSOBLJE);
+            }
+            else
+            {
+                KontrolerKI.HandleAlternative(Akcija.UCITAJ_OSOBLJE);
+            }
+        }
+
+        private void HandlePretragaOsoblja(TransferKlasa odgovor)
+        {
+            KontrolerKI.PrikaziPoruku(odgovor.Signal, odgovor.Poruka, Akcija.PRETRAGA_OSOBLJE);
+            KontrolerKI.PrikaziRezultatePretrage(odgovor.TransferObjekat, Akcija.PRETRAGA_OSOBLJE);
+        }
+
+        private void HandleDodajOsoblje(TransferKlasa odgovor)
+        {
+            KontrolerKI.PrikaziPoruku(odgovor.Signal, odgovor.Poruka, Akcija.DODAJ_OSOBLJE);
         }
 
         private void HandleUcitajOperaciju(TransferKlasa odgovor)
         {
-            Forma.PocetnaOperacijaForma.OperacijaPrikazForma.Invoke(new Action(
-                () => { Forma.PocetnaOperacijaForma.OperacijaPrikazForma.ShowResponse(odgovor); }
-                ));
-            if (odgovor.Signal)
+            KontrolerKI.PrikaziPoruku(odgovor.Signal, odgovor.Poruka, Akcija.UCITAJ_OPERACIJU);
+            if(odgovor.Signal)
             {
-                Forma.PocetnaOperacijaForma.OperacijaPrikazForma.Invoke(new Action(
-                   () => { Forma.PocetnaOperacijaForma.OperacijaPrikazForma.PopulateForm
-                       ((Operacija)odgovor.TransferObjekat); }
-                    ));
+                KontrolerKI.UcitajRezultat(odgovor.TransferObjekat, Akcija.UCITAJ_OPERACIJU);
+            } else
+            {
+                KontrolerKI.HandleAlternative(Akcija.UCITAJ_OPERACIJU);
             }
         }
 
         private void HandlePretragaOperacija(TransferKlasa odgovor)
-        {           
-            Forma.PocetnaOperacijaForma.Invoke(new Action(
-                () =>
-                {
-                    Forma.PocetnaOperacijaForma.ShowResponse(odgovor);
-                    if(odgovor.Signal)
-                    {
-                        Forma.PocetnaOperacijaForma.PrikaziRezultatPretrage((List<Operacija>)odgovor.TransferObjekat);
-                    }
-                }
-                ));
+        {
+            KontrolerKI.PrikaziPoruku(odgovor.Signal, odgovor.Poruka, Akcija.PRETRAGA_OPERACIJA);
+            KontrolerKI.PrikaziRezultatePretrage(odgovor.TransferObjekat, Akcija.PRETRAGA_OPERACIJA);
+            if(!odgovor.Signal)
+            {
+                KontrolerKI.HandleAlternative(Akcija.PRETRAGA_OPERACIJA);
+            }
         }
 
         private void HandleDodajOperaciju(TransferKlasa odgovor)
         {
-            Forma.PocetnaOperacijaForma.OperacijaForma.Invoke(new Action(
-            () =>
-                {
-                    Forma.PocetnaOperacijaForma.OperacijaForma.ShowResponse(odgovor);
-                }
-            ));
+            KontrolerKI.PrikaziPoruku(odgovor.Signal, odgovor.Poruka, Akcija.DODAJ_OPERACIJU);
         }
 
         private void HandleVratiSveTimove(TransferKlasa odgovor)
         {
-            List<Tim> timovi = (List<Tim>)odgovor.TransferObjekat;
-            Forma.PocetnaOperacijaForma.OperacijaForma.Invoke(new Action(
-                () =>
-                {
-                    Forma.PocetnaOperacijaForma.OperacijaForma.PopulateDataGridView(timovi);
-                }
-                ));
+            if (!odgovor.Signal)
+            {
+                KontrolerKI.PrikaziPoruku(odgovor.Signal, odgovor.Poruka, Akcija.VRATI_TIMOVE);
+                KontrolerKI.HandleAlternative(Akcija.VRATI_TIMOVE);
+            }
+            else
+            {
+                KontrolerKI.UcitajRezultat(odgovor.TransferObjekat, Akcija.VRATI_TIMOVE);
+            }
         }
 
         private void HandleVratiSveSale(TransferKlasa odgovor)
         {
-            List<Sala> sale = (List<Sala>)odgovor.TransferObjekat;
-            Forma.PocetnaOperacijaForma.OperacijaForma.Invoke(new Action(
-                () =>
-                {
-                    Forma.PocetnaOperacijaForma.OperacijaForma.PopulateComboBox(sale);
-                }
-                ));
+            if (!odgovor.Signal)
+            {
+                KontrolerKI.PrikaziPoruku(odgovor.Signal, odgovor.Poruka, Akcija.VRATI_SALE);
+                KontrolerKI.HandleAlternative(Akcija.VRATI_SALE);
+            } else
+            {
+                KontrolerKI.UcitajRezultat(odgovor.TransferObjekat, Akcija.VRATI_SALE);
+            }
         }
 
         private void HandleIzmeniTim(TransferKlasa odgovor)
         {
-            Forma.PocetnaTimForma.TimForma.Invoke(new Action(
-                () =>
-                {
-                    Forma.PocetnaTimForma.TimForma.ShowResponse(odgovor);
-                    Forma.PocetnaTimForma.TimForma.Dispose();
-                }
-                ));
-            if (odgovor.TransferObjekat != null)
+            KontrolerKI.PrikaziPoruku(odgovor.Signal, odgovor.Poruka, Akcija.IZMENI_TIM);
+            if (odgovor.Signal)
             {
-                Forma.PocetnaTimForma.TimPrikazForma.Invoke(new Action(
-                    () =>
-                    {
-                        Forma.PocetnaTimForma.TimPrikazForma.PopulateForm((Tim)odgovor.TransferObjekat);
-                    }
-                     ));
+                KontrolerKI.UcitajRezultat(odgovor.TransferObjekat, Akcija.UCITAJ_TIM);
+            }
+            else
+            {
+                KontrolerKI.HandleAlternative(Akcija.IZMENI_TIM);
             }
         }
 
         private void HandleUcitajTim(TransferKlasa odgovor)
         {
-            if (Forma.PocetnaTimForma != null)
+            KontrolerKI.PrikaziPoruku(odgovor.Signal, odgovor.Poruka, Akcija.UCITAJ_TIM);
+            if (odgovor.Signal)
             {
-                Forma.PocetnaTimForma.TimPrikazForma.Invoke(new Action(
-                     () => { Forma.PocetnaTimForma.TimPrikazForma.ShowResponse(odgovor); }
-                ));
-                if (odgovor.Signal)
-                {
-                    Forma.PocetnaTimForma.TimPrikazForma.Invoke(new Action(
-                       () => { Forma.PocetnaTimForma.TimPrikazForma.PopulateForm((Tim)odgovor.TransferObjekat); }
-                        ));
-                }
-            } else
+                KontrolerKI.UcitajRezultat(odgovor.TransferObjekat, Akcija.UCITAJ_TIM);
+            }
+            else
             {
-                Forma.PocetnaOperacijaForma.OperacijaPrikazForma.Invoke(new Action(
-                    () => {
-                        Forma.PocetnaOperacijaForma.OperacijaPrikazForma.ShowResponse(odgovor); }
-                    ));
-                if (odgovor.Signal)
-                {
-                    Forma.PocetnaOperacijaForma.OperacijaPrikazForma.TimPrikazForma.Invoke(new Action(
-                       () => {
-                           Forma.PocetnaOperacijaForma.OperacijaPrikazForma.TimPrikazForma.PopulateForm((Tim)odgovor.TransferObjekat);
-                           Forma.PocetnaOperacijaForma.OperacijaPrikazForma.TimPrikazForma.ButtonEdit.Visible = false;
-                       }
-                        ));
-                }
+                KontrolerKI.HandleAlternative(Akcija.UCITAJ_TIM);
             }
         }
+
+        private void HandePretragaTimova(TransferKlasa odgovor)
+        {
+            KontrolerKI.PrikaziPoruku(odgovor.Signal, odgovor.Poruka, Akcija.PRETRAGA_TIM);
+            KontrolerKI.PrikaziRezultatePretrage(odgovor.TransferObjekat, Akcija.PRETRAGA_TIM);
+        }
+
+        private void HandleDodajTim(TransferKlasa odgovor)
+        {
+            KontrolerKI.PrikaziPoruku(odgovor.Signal, odgovor.Poruka, Akcija.DODAJ_TIM);
+        }
+
+        private void HandleVratiSveOsoblje(TransferKlasa odgovor)
+        {
+            KontrolerKI.PrikaziPoruku(odgovor.Signal, odgovor.Poruka, Akcija.VRATI_OSOBLJE);
+            if(odgovor.Signal)
+            {
+                KontrolerKI.UcitajRezultat(odgovor.TransferObjekat, Akcija.VRATI_OSOBLJE);
+            } else
+            {
+                KontrolerKI.HandleAlternative(Akcija.VRATI_OSOBLJE);
+            }
+        }
+
+        public void HandleServerExit()
+        {
+            KontrolerKI.HandleServerEndSession();
+        }
+
+        //REQUEST HANDLERS
 
         internal void UcitajTim(Tim tim)
         {
@@ -254,93 +279,6 @@ namespace Klijent
                 TransferObjekat = tim
             };
             formater.Serialize(tok, transfer);
-        }
-
-        private void HandePretragaTimova(TransferKlasa odgovor)
-        {
-            Forma.PocetnaTimForma.Invoke(new Action(
-            () =>
-                 {
-                     Forma.PocetnaTimForma.ShowResponse(odgovor);
-                 }
-            ));
-            if (odgovor.Signal)
-            {
-                var lista = (IList<IOpstiDomenskiObjekat>)odgovor.TransferObjekat;
-                List<Tim> lista2 = new List<Tim>();
-                foreach (var odo in lista)
-                {
-                    lista2.Add((Tim)odo);
-                }
-                Forma.PocetnaTimForma.Invoke(new Action(
-                    () =>
-                    {
-                        Forma.PocetnaTimForma.PrikaziRezultatePretrage(lista2);
-                    }
-                    ));
-            }
-        }
-
-        private void HandleDodajTim(TransferKlasa odgovor)
-        {
-            Forma.PocetnaTimForma.TimForma.Invoke(new Action(
-                () =>
-                {
-                    Forma.PocetnaTimForma.TimForma.ShowResponse(odgovor);
-                }
-                ));
-            Forma.PocetnaTimForma.TimForma.Invoke(new Action(
-                () =>
-                {
-                    Forma.PocetnaTimForma.TimForma.ResetForm();
-                }
-                ));
-        }
-
-        private void HandleVratiSveOsoblje(TransferKlasa odgovor)
-        {
-            Forma.PocetnaTimForma.TimForma.Invoke(new Action(
-                () =>
-                {
-                    Forma.PocetnaTimForma.TimForma.ShowResponse(odgovor);
-                }
-                ));
-            if (odgovor.Signal)
-            {
-                //System.Windows.Forms.MessageBox.Show(odgovor.Poruka, "Uspesno!");
-                var odoList = (List<IOpstiDomenskiObjekat>)odgovor.TransferObjekat;
-                List<Osoblje> listaSvihOsoblja = new List<Osoblje>();
-                foreach (var o in odoList)
-                {
-                    listaSvihOsoblja.Add((Osoblje)o);
-                }
-
-                Forma.PocetnaTimForma.TimForma.Invoke(new Action(
-                    () =>
-                    {
-                        Forma.PocetnaTimForma.TimForma.ListaOsoblja = listaSvihOsoblja;
-                    }
-                    ));
-                Forma.PocetnaTimForma.TimForma.Invoke(new Action(
-                    Forma.PocetnaTimForma.TimForma.PopulateListBoxes));
-            }
-            else
-            {
-                //System.Windows.Forms.MessageBox.Show(odgovor.Poruka, "Doslo je do greske!");             
-                Forma.PocetnaTimForma.TimForma.Invoke(new Action(
-                    () =>
-                    {
-                        Forma.PocetnaTimForma.TimForma.Dispose();
-                    }
-                    ));
-            }
-        }
-
-        public void HandleServerExit()
-        {
-            System.Windows.Forms.MessageBox.Show("Server više ne radi. Molimo vas pokušajte ponovo kasnije.", "Došlo je do greške!");
-            //todo dodati mozda retry
-            Forma.Invoke(new Action(Forma.EndSession));
         }
 
         public void DodajOsoblje(Osoblje osoblje)
@@ -382,18 +320,8 @@ namespace Klijent
             formater.Serialize(tok, transfer);
         }
 
-        public void DodajTim(Tim tim, List<Osoblje> clanoviTima, Osoblje odgovoran)
+        public void DodajTim(Tim tim)
         {
-            List<ClanTima> clanovi = new List<ClanTima>();
-            foreach (Osoblje o in clanoviTima)
-            {
-                clanovi.Add(new ClanTima()
-                {
-                    OsobljeID = o.OsobljeID,
-                    Odgovoran = o.OsobljeID == odgovoran.OsobljeID,
-                });
-            }
-            tim.ClanoviTima = clanovi;
             TransferKlasa transfer = new TransferKlasa
             {
                 Akcija = Akcija.DODAJ_TIM,
@@ -402,20 +330,8 @@ namespace Klijent
             formater.Serialize(tok, transfer);
         }
 
-        public void IzmeniTim(Tim tim, List<Osoblje> clanoviTima, Osoblje odgovoran, bool edit = false)
+        public void IzmeniTim(Tim tim)
         {
-            List<ClanTima> clanovi = new List<ClanTima>();
-            foreach (Osoblje o in clanoviTima)
-            {
-                clanovi.Add(new ClanTima()
-                {
-                    OsobljeID = o.OsobljeID,
-                    Odgovoran = o.OsobljeID == odgovoran.OsobljeID,
-                    Osoblje = o,
-                    TimID = tim.TimID
-                });
-            }
-            tim.ClanoviTima = clanovi;
             TransferKlasa transfer = new TransferKlasa
             {
                 Akcija = Akcija.IZMENI_TIM,
@@ -424,12 +340,8 @@ namespace Klijent
             formater.Serialize(tok, transfer);
         }
 
-        internal void PronadjiTimove(string kriterijum)
+        internal void PronadjiTimove(Tim tim)
         {
-            Tim tim = new Tim()
-            {
-                NazivTima = kriterijum
-            };
             TransferKlasa transfer = new TransferKlasa
             {
                 Akcija = Akcija.PRETRAGA_TIM,
@@ -485,7 +397,6 @@ namespace Klijent
             };
             formater.Serialize(tok, transfer);
         }
-
 
     }
 }

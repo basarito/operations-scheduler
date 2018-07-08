@@ -46,7 +46,10 @@
             this.label7 = new System.Windows.Forms.Label();
             this.btnBack = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.btnOpenTim = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -180,7 +183,7 @@
             this.groupBox1.Controls.Add(this.btnIzvestaj);
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.groupBox1.ForeColor = System.Drawing.Color.DarkSlateGray;
-            this.groupBox1.Location = new System.Drawing.Point(91, 221);
+            this.groupBox1.Location = new System.Drawing.Point(169, 221);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(142, 159);
             this.groupBox1.TabIndex = 29;
@@ -253,12 +256,39 @@
             this.button1.Text = "Izmeni";
             this.button1.UseVisualStyleBackColor = false;
             // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.btnOpenTim);
+            this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.groupBox2.ForeColor = System.Drawing.Color.DarkSlateGray;
+            this.groupBox2.Location = new System.Drawing.Point(17, 221);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(142, 159);
+            this.groupBox2.TabIndex = 30;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Operativni tim";
+            // 
+            // btnOpenTim
+            // 
+            this.btnOpenTim.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnOpenTim.BackgroundImage")));
+            this.btnOpenTim.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.btnOpenTim.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnOpenTim.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnOpenTim.ForeColor = System.Drawing.Color.White;
+            this.btnOpenTim.Location = new System.Drawing.Point(7, 21);
+            this.btnOpenTim.Name = "btnOpenTim";
+            this.btnOpenTim.Size = new System.Drawing.Size(128, 128);
+            this.btnOpenTim.TabIndex = 1;
+            this.btnOpenTim.UseVisualStyleBackColor = true;
+            this.btnOpenTim.Click += new System.EventHandler(this.btnOpenTim_Click);
+            // 
             // OperacijaPrikazForma
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.AliceBlue;
             this.ClientSize = new System.Drawing.Size(329, 439);
+            this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.btnBack);
             this.Controls.Add(this.label7);
@@ -281,6 +311,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Detalji operacije";
             this.groupBox1.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -305,5 +336,7 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Button btnBack;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Button btnOpenTim;
     }
 }

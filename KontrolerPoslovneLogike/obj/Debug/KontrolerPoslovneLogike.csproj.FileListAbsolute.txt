@@ -11,3 +11,16 @@ D:\Fakultet\Projektovanje softvera\Ana Basaric - seminarski\PROJEKAT\Projekat\Pr
 D:\Fakultet\Projektovanje softvera\Ana Basaric - seminarski\PROJEKAT\Projekat\ProjektovanjeSoftveraProjekat\KontrolerPoslovneLogike\bin\Debug\Broker.dll
 D:\Fakultet\Projektovanje softvera\Ana Basaric - seminarski\PROJEKAT\Projekat\ProjektovanjeSoftveraProjekat\KontrolerPoslovneLogike\bin\Debug\SistemskeOperacije.pdb
 D:\Fakultet\Projektovanje softvera\Ana Basaric - seminarski\PROJEKAT\Projekat\ProjektovanjeSoftveraProjekat\KontrolerPoslovneLogike\bin\Debug\Broker.pdb
+D:\Fakultet\Projektovanje softvera\Ana Basaric - seminarski\PROJEKAT\Projekat\ProjektovanjeSoftveraProjekat - Copy\KontrolerPoslovneLogike\bin\Debug\KontrolerPoslovneLogike.dll
+D:\Fakultet\Projektovanje softvera\Ana Basaric - seminarski\PROJEKAT\Projekat\ProjektovanjeSoftveraProjekat - Copy\KontrolerPoslovneLogike\bin\Debug\KontrolerPoslovneLogike.pdb
+D:\Fakultet\Projektovanje softvera\Ana Basaric - seminarski\PROJEKAT\Projekat\ProjektovanjeSoftveraProjekat - Copy\KontrolerPoslovneLogike\bin\Debug\Domen.dll
+D:\Fakultet\Projektovanje softvera\Ana Basaric - seminarski\PROJEKAT\Projekat\ProjektovanjeSoftveraProjekat - Copy\KontrolerPoslovneLogike\bin\Debug\SistemskeOperacije.dll
+D:\Fakultet\Projektovanje softvera\Ana Basaric - seminarski\PROJEKAT\Projekat\ProjektovanjeSoftveraProjekat - Copy\KontrolerPoslovneLogike\bin\Debug\Broker.dll
+D:\Fakultet\Projektovanje softvera\Ana Basaric - seminarski\PROJEKAT\Projekat\ProjektovanjeSoftveraProjekat - Copy\KontrolerPoslovneLogike\bin\Debug\Domen.pdb
+D:\Fakultet\Projektovanje softvera\Ana Basaric - seminarski\PROJEKAT\Projekat\ProjektovanjeSoftveraProjekat - Copy\KontrolerPoslovneLogike\bin\Debug\SistemskeOperacije.pdb
+D:\Fakultet\Projektovanje softvera\Ana Basaric - seminarski\PROJEKAT\Projekat\ProjektovanjeSoftveraProjekat - Copy\KontrolerPoslovneLogike\bin\Debug\Broker.pdb
+D:\Fakultet\Projektovanje softvera\Ana Basaric - seminarski\PROJEKAT\Projekat\ProjektovanjeSoftveraProjekat - Copy\KontrolerPoslovneLogike\obj\Debug\KontrolerPoslovneLogike.csprojAssemblyReference.cache
+D:\Fakultet\Projektovanje softvera\Ana Basaric - seminarski\PROJEKAT\Projekat\ProjektovanjeSoftveraProjekat - Copy\KontrolerPoslovneLogike\obj\Debug\KontrolerPoslovneLogike.csproj.CoreCompileInputs.cache
+D:\Fakultet\Projektovanje softvera\Ana Basaric - seminarski\PROJEKAT\Projekat\ProjektovanjeSoftveraProjekat - Copy\KontrolerPoslovneLogike\obj\Debug\KontrolerPoslovneLogike.csproj.CopyComplete
+D:\Fakultet\Projektovanje softvera\Ana Basaric - seminarski\PROJEKAT\Projekat\ProjektovanjeSoftveraProjekat - Copy\KontrolerPoslovneLogike\obj\Debug\KontrolerPoslovneLogike.dll
+D:\Fakultet\Projektovanje softvera\Ana Basaric - seminarski\PROJEKAT\Projekat\ProjektovanjeSoftveraProjekat - Copy\KontrolerPoslovneLogike\obj\Debug\KontrolerPoslovneLogike.pdb

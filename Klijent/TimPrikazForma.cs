@@ -13,19 +13,22 @@ namespace Klijent
 {
     public partial class TimPrikazForma : Form
     {
-        public Tim UcitanTim { get; set; }
-        public PocetnaTimForma ParentForma { get; set; }
+        public Object UcitanTim { get; set; }
         public Button ButtonEdit { get; set; }
 
-        public TimPrikazForma(Tim tim, PocetnaTimForma parentForm)
+        public DataGridView DgvClanovi
+        {
+            get { return dgvClanovi; }
+            set { dgvClanovi = value; }
+        }
+
+        public TimPrikazForma(object o)
         {
             InitializeComponent();
             ButtonEdit = btnEdit;
-            Komunikacija.Instance.UcitajTim(tim);
-            PocetnaForma.ApplyDisabledStyle(btnBack);
+            KontrolerKI.PrikaziDetaljeTima(o);
             PocetnaForma.ApplyDisabledStyle(btnEdit);
             this.Cursor = Cursors.WaitCursor;
-            ParentForma = parentForm;
         }
 
         private void btnBack_Click(object sender, EventArgs e)
@@ -33,28 +36,10 @@ namespace Klijent
             this.Dispose();
         }
 
-        internal void ShowResponse(TransferKlasa odgovor)
+        internal void PopunuFormu(string id, string naziv)
         {
-            if(odgovor.Signal)
-            {
-                MessageBox.Show(odgovor.Poruka, "Uspesno!");
-            } else
-            {
-                MessageBox.Show(odgovor.Poruka, "Doslo je do greske!");
-                this.Dispose();
-            }
-        }
-
-        internal void PopulateForm(Tim tim)
-        {
-            UcitanTim = tim;
-
-            txtId.Text = tim.TimID.ToString();
-            txtNaziv.Text = tim.NazivTima;
-            dgvClanovi.DataSource = tim.ClanoviTima;
-            dgvClanovi.Columns[0].Width = 80;
-            dgvClanovi.ClearSelection();
-
+            txtId.Text = id;
+            txtNaziv.Text = naziv;
 
             PocetnaForma.ApplyEnabledStyle(btnBack);
             PocetnaForma.ApplyEnabledStyle(btnEdit);
@@ -73,19 +58,7 @@ namespace Klijent
 
         private void btnEdit_Click(object sender, EventArgs e)
         {
-            ParentForma.Invoke(new Action(
-                () => {
-                    ParentForma.TimForma = new TimForma(UcitanTim);
-                    ParentForma.TimForma.ShowDialog();
-                }
-                ));
+            KontrolerKI.OpenIzmenaTima(UcitanTim);
         }
-
-        //internal void RefreshData(Tim izmenjenTim)
-        //{
-        //    txtNaziv.Text = izmenjenTim.NazivTima;
-        //    dgvClanovi.DataSource = izmenjenTim.ClanoviTima;
-
-        //}
     }
 }

@@ -21,6 +21,7 @@ namespace SistemskeOperacije
                     return false;
                 } else
                 {
+                    tim = (Tim)Rezultat;
                     List<ClanTima> clanovi = new List<ClanTima>();
                     ClanTima c = new ClanTima() { TimID = tim.TimID };
                     var result = BrokerBP.Instance.VratiSveUslov(c);

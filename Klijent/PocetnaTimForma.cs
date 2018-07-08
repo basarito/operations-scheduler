@@ -13,9 +13,13 @@ namespace Klijent
 {
     public partial class PocetnaTimForma : Form
     {
-        public TimForma TimForma { get; set; }
-        public TimPrikazForma TimPrikazForma { get; set; }
         bool isBtnDetailsEnabled = false;
+
+        public ListBox ListSearchResults
+        {
+            get { return listSearchResults; }
+            set { listSearchResults = value; }
+        }
 
         public PocetnaTimForma()
         {
@@ -26,9 +30,7 @@ namespace Klijent
 
         private void btnOpenNewTeam_Click(object sender, EventArgs e)
         {
-            TimForma = new TimForma();
-            //Komunikacija.Instance.VratiSveOsoblje();
-            TimForma.ShowDialog();
+            KontrolerKI.OtvoriTimFormu(); 
         }
 
         private void btnBack_Click(object sender, EventArgs e)
@@ -52,13 +54,13 @@ namespace Klijent
                 isBtnDetailsEnabled = false;
                 return;
             }
-            Komunikacija.Instance.PronadjiTimove(kriterijum);
+            KontrolerKI.PronadjiTimove(kriterijum);
+            this.Cursor = Cursors.WaitCursor;
         }
 
-        public void PrikaziRezultatePretrage(List<Tim> result)
+        public void PrikaziRezultatePretrage(int count)
         {
-            listSearchResults.DataSource = result;
-            if (result.Count > 0)
+            if (count > 0)
             {
                 PocetnaForma.ApplyEnabledStyle(btnDetails);
                 isBtnDetailsEnabled = true;
@@ -74,20 +76,7 @@ namespace Klijent
         {
             if(isBtnDetailsEnabled)
             {
-                TimPrikazForma = new TimPrikazForma((Tim)listSearchResults.SelectedItem, this);
-                TimPrikazForma.ShowDialog();
-            }
-        }
-
-        internal void ShowResponse(TransferKlasa odgovor)
-        {
-            MessageBox.Show(odgovor.Poruka);
-            if(!odgovor.Signal)
-            {
-                //txtSearch.Clear();
-                listSearchResults.DataSource = null;
-                PocetnaForma.ApplyDisabledStyle(btnDetails);
-                isBtnDetailsEnabled = false;
+                KontrolerKI.OpenTimPrikazFormu(listSearchResults.SelectedItem);
             }
         }
     }
