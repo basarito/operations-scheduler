@@ -21,16 +21,19 @@ namespace SistemskeOperacije
                     {
                         SalaID = rez.SalaID
                     });
-                    rez.Sala = sala ?? throw new Exception();                 
+                    rez.Sala = sala ?? throw new Exception();
 
                     //unos izvestaja 
-                    if(!string.IsNullOrWhiteSpace(((Operacija)odo).IzvestajOpis))
-                    {
-                        BrokerBP.Instance.Izmeni((Operacija)odo);
-                    } else
-                    {
-                        //update cele operacije
-                    }
+                    //if(!string.IsNullOrWhiteSpace(((Operacija)odo).IzvestajOpis))
+                    //{
+                    //    BrokerBP.Instance.Izmeni((Operacija)odo);
+                    //} else
+                    //{
+                    //    //update cele operacije
+                    //BrokerBP.Instance.Izmeni((Operacija)odo);
+                    //}
+
+                    BrokerBP.Instance.Izmeni((Operacija)odo);
 
                     Rezultat = rez;
                     return true;

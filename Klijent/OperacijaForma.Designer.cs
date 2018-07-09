@@ -34,6 +34,8 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(OperacijaForma));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.cbStatus = new System.Windows.Forms.ComboBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.datePickerTerminDoVreme = new System.Windows.Forms.DateTimePicker();
             this.datePickerTerminOdVreme = new System.Windows.Forms.DateTimePicker();
             this.cbSale = new System.Windows.Forms.ComboBox();
@@ -53,6 +55,8 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.cbStatus);
+            this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.datePickerTerminDoVreme);
             this.groupBox1.Controls.Add(this.datePickerTerminOdVreme);
             this.groupBox1.Controls.Add(this.cbSale);
@@ -63,12 +67,35 @@
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.groupBox1.ForeColor = System.Drawing.Color.DarkSlateGray;
-            this.groupBox1.Location = new System.Drawing.Point(12, 12);
+            this.groupBox1.Location = new System.Drawing.Point(12, 9);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(423, 167);
+            this.groupBox1.Size = new System.Drawing.Size(423, 217);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Detalji operacije";
+            // 
+            // cbStatus
+            // 
+            this.cbStatus.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbStatus.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cbStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.cbStatus.ForeColor = System.Drawing.Color.DarkSlateGray;
+            this.cbStatus.FormattingEnabled = true;
+            this.cbStatus.Location = new System.Drawing.Point(16, 177);
+            this.cbStatus.Name = "cbStatus";
+            this.cbStatus.Size = new System.Drawing.Size(392, 24);
+            this.cbStatus.TabIndex = 21;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label4.ForeColor = System.Drawing.Color.DarkSlateGray;
+            this.label4.Location = new System.Drawing.Point(13, 158);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(47, 15);
+            this.label4.TabIndex = 20;
+            this.label4.Text = "Status";
             // 
             // datePickerTerminDoVreme
             // 
@@ -84,6 +111,7 @@
             this.datePickerTerminDoVreme.ShowUpDown = true;
             this.datePickerTerminDoVreme.Size = new System.Drawing.Size(124, 22);
             this.datePickerTerminDoVreme.TabIndex = 19;
+            this.datePickerTerminDoVreme.DropDown += new System.EventHandler(this.datePicker_DropDown);
             // 
             // datePickerTerminOdVreme
             // 
@@ -99,6 +127,7 @@
             this.datePickerTerminOdVreme.ShowUpDown = true;
             this.datePickerTerminOdVreme.Size = new System.Drawing.Size(124, 22);
             this.datePickerTerminOdVreme.TabIndex = 18;
+            this.datePickerTerminOdVreme.DropDown += new System.EventHandler(this.datePicker_DropDown);
             // 
             // cbSale
             // 
@@ -135,6 +164,7 @@
             this.datePickerTerminDoDatum.Name = "datePickerTerminDoDatum";
             this.datePickerTerminDoDatum.Size = new System.Drawing.Size(244, 22);
             this.datePickerTerminDoDatum.TabIndex = 15;
+            this.datePickerTerminDoDatum.DropDown += new System.EventHandler(this.datePicker_DropDown);
             // 
             // label1
             // 
@@ -158,6 +188,7 @@
             this.datePickerTerminOdDatum.Name = "datePickerTerminOdDatum";
             this.datePickerTerminOdDatum.Size = new System.Drawing.Size(244, 22);
             this.datePickerTerminOdDatum.TabIndex = 13;
+            this.datePickerTerminOdDatum.DropDown += new System.EventHandler(this.datePicker_DropDown);
             // 
             // label3
             // 
@@ -175,9 +206,9 @@
             this.groupBox2.Controls.Add(this.dgvTimovi);
             this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.groupBox2.ForeColor = System.Drawing.Color.DarkSlateGray;
-            this.groupBox2.Location = new System.Drawing.Point(12, 185);
+            this.groupBox2.Location = new System.Drawing.Point(12, 231);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(423, 292);
+            this.groupBox2.Size = new System.Drawing.Size(423, 249);
             this.groupBox2.TabIndex = 17;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Operativni tim";
@@ -216,7 +247,7 @@
             this.dgvTimovi.DefaultCellStyle = dataGridViewCellStyle3;
             this.dgvTimovi.EnableHeadersVisualStyles = false;
             this.dgvTimovi.GridColor = System.Drawing.Color.CadetBlue;
-            this.dgvTimovi.Location = new System.Drawing.Point(16, 23);
+            this.dgvTimovi.Location = new System.Drawing.Point(11, 25);
             this.dgvTimovi.Name = "dgvTimovi";
             this.dgvTimovi.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             this.dgvTimovi.RowHeadersVisible = false;
@@ -233,7 +264,7 @@
             this.dgvTimovi.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.DarkSlateGray;
             this.dgvTimovi.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.dgvTimovi.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvTimovi.Size = new System.Drawing.Size(392, 255);
+            this.dgvTimovi.Size = new System.Drawing.Size(400, 210);
             this.dgvTimovi.TabIndex = 0;
             // 
             // btnBack
@@ -243,7 +274,7 @@
             this.btnBack.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnBack.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.btnBack.ForeColor = System.Drawing.Color.DarkSlateGray;
-            this.btnBack.Location = new System.Drawing.Point(12, 488);
+            this.btnBack.Location = new System.Drawing.Point(12, 495);
             this.btnBack.Name = "btnBack";
             this.btnBack.Size = new System.Drawing.Size(139, 30);
             this.btnBack.TabIndex = 18;
@@ -258,7 +289,7 @@
             this.btnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSave.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.btnSave.ForeColor = System.Drawing.Color.DarkSlateGray;
-            this.btnSave.Location = new System.Drawing.Point(296, 488);
+            this.btnSave.Location = new System.Drawing.Point(296, 495);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(139, 30);
             this.btnSave.TabIndex = 19;
@@ -271,7 +302,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.AliceBlue;
-            this.ClientSize = new System.Drawing.Size(447, 530);
+            this.ClientSize = new System.Drawing.Size(447, 538);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.btnBack);
             this.Controls.Add(this.groupBox2);
@@ -305,5 +336,7 @@
         private System.Windows.Forms.ComboBox cbSale;
         private System.Windows.Forms.DateTimePicker datePickerTerminDoVreme;
         private System.Windows.Forms.DateTimePicker datePickerTerminOdVreme;
+        private System.Windows.Forms.ComboBox cbStatus;
+        private System.Windows.Forms.Label label4;
     }
 }

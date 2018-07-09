@@ -133,8 +133,8 @@ namespace Domen
                 return $"izvestajOpis = '{IzvestajOpis}', izvestajDatum = Date()";
             } else
             {
-                //todo
-                return "";
+                return $"timID = {TimID}, salaID = {SalaID}, terminOd = '{TerminOd.ToString(format)}'," +
+                    $"terminDo = '{TerminDo.ToString(format)}', status = {(int)Status}";
             }
         }
     }

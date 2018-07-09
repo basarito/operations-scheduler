@@ -31,6 +31,7 @@ namespace Domen
         DODAJ_OPERACIJU,
         PRETRAGA_OPERACIJA,
         UCITAJ_OPERACIJU,
-        ZAPAMTI_IZVESTAJ
+        ZAPAMTI_IZVESTAJ,
+        IZMENI_OPERACIJU
     }
 }

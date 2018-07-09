@@ -79,5 +79,22 @@ namespace Domen
         {
             return NazivSale;
         }
+
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType())
+                return false;
+
+            Sala sala = obj as Sala;
+
+            return sala.SalaID == this.SalaID;
+        }
+
+        public override int GetHashCode()
+        {
+            return SalaID.GetHashCode() + NazivSale.GetHashCode();
+        }
+
     }
 }

@@ -70,5 +70,16 @@ namespace Klijent
             this.Cursor = Cursors.Arrow;
             isStateEnabled = true;
         }
+
+        private void btnEdit_Click(object sender, EventArgs e)
+        {
+            if(txtStatus.Text != "Zakazana")
+            {
+                MessageBox.Show("Nije moguce izmeniti operaciju koja je otkazana ili odrzana.");
+                return;
+            }
+            KontrolerKI.OpenIzmenaOperacije();
+
+        }
     }
 }

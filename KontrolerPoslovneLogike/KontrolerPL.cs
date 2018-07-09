@@ -124,6 +124,23 @@ namespace KontrolerPoslovneLogike
             }
         }
 
+        public static Tuple<bool, string> IzmeniOperaciju(Operacija op, ref Operacija result)
+        {
+            OpstaSistemskaOperacija izmeniOperaciju = new IzmeniOperacijuSO();
+            if(izmeniOperaciju.IzvrsiSO(op))
+            {
+                OpstaSistemskaOperacija ucitajOperaciju = new UcitajOperacijuSO();
+                if (ucitajOperaciju.IzvrsiSO(op))
+                {
+                    result = (Operacija)ucitajOperaciju.Rezultat;
+                }
+                return new Tuple<bool, string>(true, "Uspešno sačuvana operacija.");
+            } else
+            {
+                return new Tuple<bool, string>(false, "Sistem ne može da sačuva operaciju.");
+            }
+        }
+
         public static Tuple<bool, string> ZapamtiIzvestaj(Operacija operacija, ref Operacija result)
         {
             OpstaSistemskaOperacija izmeniOperaciju = new IzmeniOperacijuSO();

@@ -70,6 +70,12 @@ namespace Klijent
             Komunikacija.Instance.ZapamtiIzvestaj(o);
         }
 
+        internal static void OpenIzmenaOperacije()
+        {
+            OperacijaForma = new OperacijaForma(true);
+            OperacijaForma.ShowDialog();
+        }
+
         internal static void PrikaziDetaljeOperacije(object dataBoundItem)
         {
             LoadedOperation = null;
@@ -114,6 +120,21 @@ namespace Klijent
         {
             OsobljePrikazForma = new OsobljePrikazForma(selectedItem);
             OsobljePrikazForma.ShowDialog();
+        }
+
+        internal static void IzmeniOperaciju(object selectstedItemStatus, object selectedItemSala,
+            object dataBoundItemTim, DateTime terminOd, DateTime terminDo)
+        {
+            Operacija operacija = new Operacija()
+            {
+                OperacijaID = LoadedOperation.OperacijaID,
+                SalaID = ((Sala)selectedItemSala).SalaID,
+                TimID = ((Tim)dataBoundItemTim).TimID,
+                TerminOd = terminOd,
+                TerminDo = terminDo,
+                Status = (Status)selectstedItemStatus
+            };
+            Komunikacija.Instance.IzmeniOperaciju(operacija);
         }
 
         internal static void PronadjiTimove(string kriterijum)
@@ -248,6 +269,11 @@ namespace Klijent
             { Pozicija.Hirurg, Pozicija.Sestra, Pozicija.Stazista, Pozicija.Anesteziolog};
         }
 
+        internal static List<Status> VratiStatuseOperacija()
+        {
+            return new List<Status>() { Status.Zakazana, Status.Odrzana, Status.Otkazana };
+        }
+
         private static void CloseOpenForms()
         {
             if (Application.OpenForms.Count > 1)
@@ -326,6 +352,9 @@ namespace Klijent
                 case Akcija.ZAPAMTI_IZVESTAJ:
                     forma = IzvestajForma;
                     break;
+                case Akcija.IZMENI_OPERACIJU:
+                    forma = OperacijaForma;
+                    break;
             }
             forma?.Invoke(new Action(
                 () =>
@@ -338,7 +367,7 @@ namespace Klijent
             if(akcija == Akcija.IZMENI_TIM)
             {
                 TimForma?.Invoke(new Action(TimForma.Dispose));
-            } else if (akcija == Akcija.DODAJ_OPERACIJU)
+            } else if (akcija == Akcija.DODAJ_OPERACIJU || akcija == Akcija.IZMENI_OPERACIJU)
             {
                 OperacijaForma?.Invoke(new Action(OperacijaForma.Dispose));
             } 
@@ -449,9 +478,23 @@ namespace Klijent
                     OperacijaForma?.Invoke(new Action(() => {
                         OperacijaForma.DgvTimovi.DataSource = listaTimova;
                         OperacijaForma.SetDataGridView();
+                        if(OperacijaForma.EditMode)
+                        {
+                            OperacijaForma.PopuniFormu(LoadedOperation.TerminOd, LoadedOperation.TerminDo);
+                            OperacijaForma.CbSale.SelectedItem = LoadedOperation.Sala;
+                            foreach(DataGridViewRow row in OperacijaForma.DgvTimovi.Rows)
+                            {
+                                if(((Tim)row.DataBoundItem).TimID == LoadedOperation.TimID)
+                                {
+                                    row.Selected = true;
+                                    break;
+                                }
+                            }
+                        }
                     }));
                     break;
                 case Akcija.UCITAJ_OPERACIJU:
+                case Akcija.IZMENI_OPERACIJU:
                     Operacija op = (Operacija)transferObjekat;
                     LoadedOperation = op;
                     OperacijaPrikazForma?.Invoke(new Action(()=> {

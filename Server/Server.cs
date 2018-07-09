@@ -54,7 +54,7 @@ namespace Server
                 Console.WriteLine("exception: " + ex.Message);
             } finally
             {
-                Console.WriteLine(klijenti.Count);
+                Console.WriteLine(klijenti?.Count);
             }
         }
 

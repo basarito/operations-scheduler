@@ -16,12 +16,22 @@ namespace Klijent
         bool stateEnabled = false;
         public ComboBox CbSale { get { return cbSale; } }
         public DataGridView DgvTimovi { get { return dgvTimovi; } }
+        public bool EditMode { get; set; }
 
-        public OperacijaForma()
+        public OperacijaForma(bool edit = false)
         {
             InitializeComponent();
             SetEnableControls(false);
-            KontrolerKI.VratiSveSale();          
+            KontrolerKI.VratiSveSale();
+            cbStatus.DataSource = KontrolerKI.VratiStatuseOperacija();
+            cbStatus.Enabled = false;
+            EditMode = false;
+            if (edit)
+            {
+                EditMode = true;
+                this.Text = "Izmena operacije";
+                btnSave.Text = "Sačuvaj";
+            }
         }
 
         public void SetEnableControls(bool state)
@@ -104,8 +114,15 @@ namespace Klijent
                 return;
             }
 
-            KontrolerKI.DodajNovuOperaciju(cbSale.SelectedItem, dgvTimovi.SelectedRows[0].DataBoundItem, terminOd,
-                terminDo);
+            if(EditMode)
+            {
+                KontrolerKI.IzmeniOperaciju(cbStatus.SelectedItem, cbSale.SelectedItem,
+                    dgvTimovi.SelectedRows[0].DataBoundItem, terminOd, terminDo);
+            } else
+            {
+                KontrolerKI.DodajNovuOperaciju(cbSale.SelectedItem,
+                    dgvTimovi.SelectedRows[0].DataBoundItem, terminOd, terminDo);
+            }
         }
 
         internal void ShowResponse(TransferKlasa odgovor)
@@ -116,7 +133,32 @@ namespace Klijent
 
         private void cbSale_DataSourceChanged(object sender, EventArgs e)
         {
-            KontrolerKI.VratiSveTimove();
+            KontrolerKI.VratiSveTimove();        
+        
         }
+
+        internal void PopuniFormu(DateTime terminOd, DateTime terminDo)
+        {
+            datePickerTerminOdDatum.MinDate = DateTimePicker.MinimumDateTime;
+            datePickerTerminDoDatum.MinDate = DateTimePicker.MinimumDateTime;
+
+            datePickerTerminOdDatum.Value = terminOd.Date;
+            datePickerTerminOdVreme.Value = terminOd;
+            datePickerTerminDoDatum.Value = terminDo.Date;
+            datePickerTerminDoVreme.Value = terminDo;
+            cbStatus.Enabled = true;
+        }
+
+        private void datePicker_DropDown(object sender, EventArgs e)
+        {
+            if(EditMode)
+            {
+                datePickerTerminOdDatum.MinDate = DateTime.Now;
+                datePickerTerminDoDatum.MinDate = datePickerTerminOdDatum.Value;
+                datePickerTerminOdVreme.Value = DateTime.Now;
+                datePickerTerminDoVreme.Value = DateTime.Now.AddHours(1);
+            }
+        }
+
     }
 }
